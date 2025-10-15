@@ -45,4 +45,34 @@ class AdminController extends Controller
         $brands = Brand::create($data);
         return redirect()->route('admin.brands')->with('status', 'Brand created successfully!');
     }
+
+    public function edit_brand($id)
+    {
+        $brands = Brand::findOrFail($id);
+        return view('admin.edit-brand', compact('brands'));
+    }
+
+    public function update_brand(StoreBrandRequest $request, $id)
+    {
+        $brands = Brand::findOrFail($id);
+        $data = $request->validated();
+        if ($request->hasFile('image')) {
+            Storage::delete('image');
+            $file = $request->file('image');
+            $fileName = time() . '-' . $file->getClientOriginalName();
+            $path = $file->storeAs('brands', $fileName);
+        }
+        $data['image'] =  $path;
+        $brands->update($data);
+        return redirect()->route('admin.brands')->with('status', 'Brand updated successfully!');
+    }
+    public function delete_brand($id)
+    {
+        $brands = Brand::findOrFail($id);
+        if ($brands->image && Storage::exists($brands->image)) {
+            Storage::delete('$brands->image');
+        }
+        $brands->delete();
+        return back()->with('status', 'Brand deleted successfully!');
+    }
 }

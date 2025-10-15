@@ -32,10 +32,13 @@
                             </div>
                         </form>
                     </div>
-                    <a class="tf-button style-1 w208" href="add-brand.html"><i class="icon-plus"></i>Add new</a>
+                    <a class="tf-button style-1 w208" href="{{ route('admin.brand.add') }}"><i class="icon-plus"></i>Add
+                        new</a>
                 </div>
 
-
+                @if (Session::has('status'))
+                    <p class="alert alert-success">{{ Session::get('status') }}</p>
+                @endif
                 <table class="table table-bordered text-center">
                     <thead>
                         <tr>
@@ -60,7 +63,7 @@
                                     </div>
                                 </td>
                                 <td>{{ $brand->slug }}</td>
-                                <td><a href="#" target="_blank">1</a></td>
+                                <td><a href="#" target="_blank">0</a></td>
                                 <td>
                                     <div class="list-icon-function">
                                         <a href="#">

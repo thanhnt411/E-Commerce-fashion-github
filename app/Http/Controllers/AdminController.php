@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
+use App\Models\Product;
 use Intervention\Image\Laravel\Facades\Image;
 
 class AdminController extends Controller
@@ -99,13 +101,7 @@ class AdminController extends Controller
             $fileName = time() . '-' . $file->getClientOriginalName();
             $path = $file->storeAs('categories', $fileName);
         }
-        /*$img = Image::read($file->getRealPath());
-        $img->resize(800, null, function ($const) {
-            $const->aspectRatio();
-            $const->upsize();
-        });
-        $path = 'brands/' . $fileName;
-        Storage::disk('public')->put($path, (string) $img->endcode());*/
+
         $data['image'] =  $path;
         $categories = Category::create($data);
         return redirect()->route('admin.categories')->with('status', 'Category created successfully!');
@@ -140,5 +136,46 @@ class AdminController extends Controller
         }
         $categories->delete();
         return back()->with('status', 'Categories deleted successfully!');
+    }
+    //END Categories
+
+    //START Products
+    public function products()
+    {
+        $products = Product::orderBy('created_at', 'DESC')->paginate(10);
+        return view('admin.products', compact('products'));
+    }
+
+    public function add_products()
+    {
+        $categories = Category::select('id', 'name')->orderBy('name')->get();
+        $brands = Brand::select('id', 'name')->orderBy('name')->get();
+        return view('admin.add-products', compact('categories', 'brands'));
+    }
+
+    public function store_products(StoreProductRequest $request)
+    {
+        $data = $request->validated();
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = time() . '-' . $file->getClientOriginalName();
+            $Mainpath = $file->storeAs('products', $fileName);
+            $data['image'] = $Mainpath;
+        }
+
+
+        if ($request->hasFile('images')) {
+            $gallery = [];
+            dd($request->file('images'));
+            foreach ($request->file('images') as $index => $file) {
+                $fileNameG = time() . "-{$index}." . $file->extension();
+
+                $galleryPath = $file->storeAs('products', $fileNameG);
+                $gallery[] = $galleryPath;
+            }
+        }
+        //$data['images'] = implode(',', $gallery);
+        $products = Product::create($data);
+        return redirect()->route('admin.products')->with('status', 'Products created successfully!');
     }
 }

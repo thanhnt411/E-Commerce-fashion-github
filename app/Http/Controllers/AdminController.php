@@ -163,18 +163,19 @@ class AdminController extends Controller
             $data['image'] = $Mainpath;
         }
 
-
+        $gallery = [];
+        $count = 1;
         if ($request->hasFile('images')) {
-            $gallery = [];
-            dd($request->file('images'));
-            foreach ($request->file('images') as $index => $file) {
-                $fileNameG = time() . "-{$index}." . $file->extension();
+            $files = (array) $request->file('images');
+            foreach ($files as $file) {
+                $fileNameG = now()->timestamp . '-' . uniqid() . '-' . $count . '.' . $file->extension();
 
-                $galleryPath = $file->storeAs('products', $fileNameG);
+                $galleryPath = $file->storeAs('products/thumbnail', $fileNameG);
                 $gallery[] = $galleryPath;
+                $count = $count + 1;
             }
+            $data['images'] = implode(',', $gallery);
         }
-        //$data['images'] = implode(',', $gallery);
         $products = Product::create($data);
         return redirect()->route('admin.products')->with('status', 'Products created successfully!');
     }

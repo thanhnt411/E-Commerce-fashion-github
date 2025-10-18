@@ -61,9 +61,8 @@
                                     <td>{{ $product->id }}</td>
                                     <td class="pname">
                                         <div class="image">
-                                            <img src="{{ asset('storage' . $product->image) }}" alt=""
-                                                class="image">
-                                            @dd($product);
+                                            <img src="{{ asset('storage/' . $product->image) }}"
+                                                alt=""class="image">
                                         </div>
                                         <div class="name">
                                             <a href="#" class="body-title-2">{{ $product->name }}</a>

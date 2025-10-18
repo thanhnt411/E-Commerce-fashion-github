@@ -29,6 +29,8 @@ class StoreProductRequest extends FormRequest
             'regular_price' => 'required|',
             'sale_price' => 'required|',
             'image' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+            'images' => 'required',
+            'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
             'SKU' => 'required|',
             'stock_status' => 'required|',
             'featured' => 'required|',

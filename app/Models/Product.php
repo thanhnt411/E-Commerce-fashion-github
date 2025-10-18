@@ -14,6 +14,7 @@ class Product extends Model
         'regular_price',
         'sale_price',
         'image',
+        'images',
         'SKU',
         'stock_status',
         'featured',

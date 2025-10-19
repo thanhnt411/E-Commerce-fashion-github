@@ -179,4 +179,48 @@ class AdminController extends Controller
         $products = Product::create($data);
         return redirect()->route('admin.products')->with('status', 'Products created successfully!');
     }
+
+    public function edit_products($id)
+    {
+        $products = Product::findOrFail($id);
+        $categories = Category::select('id', 'name')->orderBy('name')->get();
+        $brands = Brand::select('id', 'name')->orderBy('name')->get();
+        return view('admin.edit-products', compact('products', 'categories', 'brands'));
+    }
+
+    public function update_products(StoreProductRequest $request, $id)
+    {
+        $products = Product::findOrFail($id);
+        $data = $request->validated();
+        if ($request->hasFile('image')) {
+            Storage::delete('image');
+            $file = $request->file('image');
+            $fileName = time() . '-' . $file->getClientOriginalName();
+            $Mainpath = $file->storeAs('products', $fileName);
+            $data['image'] = $Mainpath;
+        }
+
+        $gallery = [];
+        $count = 1;
+        if ($request->hasFile('images')) {
+            $files = (array) $request->file('images');
+            foreach ($files as $file) {
+                $fileNameG = now()->timestamp . '-' . uniqid() . '-' . $count . '.' . $file->extension();
+                $galleryPath = $file->storeAs('products/thumbnail', $fileNameG);
+                $gallery[] = $galleryPath;
+                $count = $count + 1;
+            }
+        }
+        if (!empty($gallery)) {
+            foreach (explode(',', $products->images) as $olFile) {
+                if (Storage::exists(trim($olFile))) {
+                    Storage::delete($olFile);
+                }
+            }
+        }
+        $data['images'] = implode(',', $gallery);
+
+        $products->update($data);
+        return redirect()->route('admin.products')->with('status', 'Products updated successfully!');
+    }
 }

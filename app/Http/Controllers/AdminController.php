@@ -61,7 +61,9 @@ class AdminController extends Controller
         $brands = Brand::findOrFail($id);
         $data = $request->validated();
         if ($request->hasFile('image')) {
-            Storage::delete('image');
+            if ($brands->image && Storage::exists($brands->image)) {
+                Storage::delete($brands->image);
+            }
             $file = $request->file('image');
             $fileName = time() . '-' . $file->getClientOriginalName();
             $path = $file->storeAs('brands', $fileName);
@@ -75,7 +77,7 @@ class AdminController extends Controller
     {
         $brands = Brand::findOrFail($id);
         if ($brands->image && Storage::exists($brands->image)) {
-            Storage::delete('$brands->image');
+            Storage::delete($brands->image);
         }
         $brands->delete();
         return back()->with('status', 'Brand deleted successfully!');
@@ -118,7 +120,9 @@ class AdminController extends Controller
         $categories = Category::findOrFail($id);
         $data = $request->validated();
         if ($request->hasFile('image')) {
-            Storage::delete('image');
+            if ($categories->image && Storage::exists($categories->image)) {
+                Storage::delete($categories->image);
+            }
             $file = $request->file('image');
             $fileName = time() . '-' . $file->getClientOriginalName();
             $path = $file->storeAs('categories', $fileName);
@@ -132,7 +136,7 @@ class AdminController extends Controller
     {
         $categories = Category::findOrFail($id);
         if ($categories->image && Storage::exists($categories->image)) {
-            Storage::delete('$categories->image');
+            Storage::delete($categories->image);
         }
         $categories->delete();
         return back()->with('status', 'Categories deleted successfully!');
@@ -193,7 +197,9 @@ class AdminController extends Controller
         $products = Product::findOrFail($id);
         $data = $request->validated();
         if ($request->hasFile('image')) {
-            Storage::delete('image');
+            if ($products->image && Storage::exists($products->image)) {
+                Storage::delete($products->image);
+            }
             $file = $request->file('image');
             $fileName = time() . '-' . $file->getClientOriginalName();
             $Mainpath = $file->storeAs('products', $fileName);
@@ -223,4 +229,20 @@ class AdminController extends Controller
         $products->update($data);
         return redirect()->route('admin.products')->with('status', 'Products updated successfully!');
     }
+
+    public function delete_products($id)
+    {
+        $products = Product::findOrFail($id);
+        if ($products->image && Storage::exists($products->image)) {
+            Storage::delete($products->image);
+        }
+        foreach (explode(',', $products->images) as $olFile) {
+            if (Storage::exists(trim($olFile))) {
+                Storage::delete($olFile);
+            }
+        }
+        $products->delete();
+        return back()->with('status', 'Products deleted successfully!');
+    }
+    //END Products
 }

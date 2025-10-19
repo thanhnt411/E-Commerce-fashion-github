@@ -39,7 +39,7 @@
                     <p class="alert alert-success">{{ Session::get('status') }}</p>
                 @endif
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped table-bordered" style="table-layout: auto">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -89,10 +89,14 @@
                                                     <i class="icon-edit-3"></i>
                                                 </div>
                                             </a>
-                                            <form action="#" method="POST">
-                                                <div class="item text-danger delete">
+                                            <form action="{{ route('admin.products.delete', ['id' => $product->id]) }}"
+                                                method="POST" onsubmit="return confirm('Xóa bài này?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="item text-danger delete"
+                                                    style="border:none; display:flex; align-items:center; justify-content:center; padding:0; margin:0;">
                                                     <i class="icon-trash-2"></i>
-                                                </div>
+                                                </button>
                                             </form>
                                         </div>
                                     </td>

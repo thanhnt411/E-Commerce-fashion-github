@@ -416,14 +416,14 @@
                                                         src="{{ asset('storage/' . $product->image) }}" width="330"
                                                         height="400" alt="{{ $product->name }}" class="pc__img"></a>
                                             </div>
-                                            <div class="swiper-slide">
-                                                @foreach (explode(',', $product->images) as $img)
+                                            @foreach (explode(',', $product->images) as $img)
+                                                <div class="swiper-slide">
                                                     <a href="details.html"><img loading="lazy"
-                                                            src="{{ asset('storage/' . $img) }}" width="330"
+                                                            src="{{ asset('storage/' . trim($img)) }}" width="330"
                                                             height="400" alt="{{ $product->name }}"
                                                             class="pc__img"></a>
-                                                @endforeach
-                                            </div>
+                                                </div>
+                                            @endforeach
                                         </div>
                                         <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11"
                                                 xmlns="http://www.w3.org/2000/svg">

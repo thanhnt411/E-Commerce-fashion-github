@@ -15,7 +15,8 @@
                                     <th></th>
                                     <th>Price</th>
                                     <th>Quantity</th>
-                                    <th>Subtotal</th>
+
+                                    <th>Action</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -44,8 +45,15 @@
                                             <div class="qty-control position-relative text-center">{{ $item->qty }}</div>
                                         </td>
                                         <td>
-                                            <span class="shopping-cart__subtotal">${{ $item->subTotal() }}</span>
+                                            <div class="col-6">
+                                                <form method="POST"
+                                                    action="{{ route('wishlist.move', ['rowId' => $item->rowId]) }}">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-warning">Move to Cart</button>
+                                                </form>
+                                            </div>
                                         </td>
+
                                         <td>
                                             <form method="POST"
                                                 action="{{ route('wishlist.item.remove', ['rowId' => $item->rowId]) }}"

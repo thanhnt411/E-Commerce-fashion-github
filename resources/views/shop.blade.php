@@ -448,8 +448,8 @@
                                         <span class="reviews-note text-lowercase text-secondary ms-1">8k+ reviews</span>
                                     </div>
 
-                                    @if (Cart::instance('wishlist')->content()->count() > 0)
-                                        <button type="submit"
+                                    @if (Cart::instance('wishlist')->content()->where('id', $product->id)->count() > 0)
+                                        <button
                                             class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist filled-heart"
                                             title="Add To Wishlist">
                                             <svg width="16" height="16" viewBox="0 0 20 20" fill="none"

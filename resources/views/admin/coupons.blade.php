@@ -32,52 +32,58 @@
                             </div>
                         </form>
                     </div>
-                    <a class="tf-button style-1 w208" href="add-coupon.html"><i class="icon-plus"></i>Add new</a>
+                    <a class="tf-button style-1 w208" href="{{ route('admin.coupons.add') }}"><i class="icon-plus"></i>Add
+                        new</a>
                 </div>
-                <div class="wg-table table-all-user">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Code</th>
-                                    <th>Type</th>
-                                    <th>Value</th>
-                                    <th>Cart Value</th>
-                                    <th>Expiry Date</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($coupons as $coupon)
-                                    <tr>
-                                        <td>{{ $coupon->id }}</td>
-                                        <td>{{ $coupon->code }}</td>
-                                        <td>{{ $coupon->type }}</td>
-                                        <td>{{ $coupon->value }}</td>
-                                        <td>{{ $coupon->cart_value }}</td>
-                                        <td>{{ $coupon->expiry_date }}</td>
-                                        <td>
-                                            <div class="list-icon-function">
-                                                <a href="#">
-                                                    <div class="item edit">
-                                                        <i class="icon-edit-3"></i>
-                                                    </div>
-                                                </a>
-                                                <form action="#" method="POST">
-                                                    <div class="item text-danger delete">
-                                                        <i class="icon-trash-2"></i>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
 
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered" style="table-layout: auto">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Code</th>
+                                <th>Type</th>
+                                <th>Value</th>
+                                <th>Cart Value</th>
+                                <th>Expiry Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($coupons as $coupon)
+                                <tr>
+                                    <td>{{ $coupon->id }}</td>
+                                    <td>{{ $coupon->code }}</td>
+                                    <td>{{ $coupon->type }}</td>
+                                    <td>{{ $coupon->value }}</td>
+                                    <td>{{ $coupon->cart_value }}</td>
+                                    <td>{{ $coupon->expiry_date }}</td>
+                                    <td>
+                                        <div class="list-icon-function">
+                                            <a href="{{ route('admin.coupons.edit', ['id' => $coupon->id]) }}">
+                                                <div class="item edit">
+                                                    <i class="icon-edit-3"></i>
+                                                </div>
+                                            </a>
+                                            <form action="{{ route('admin.coupons.delete', ['id' => $coupon->id]) }}"
+                                                method="POST"
+                                                onsubmit="return confirm('Are you sure to delete ?').submit();"
+                                                id="form-delete">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="item text-danger delete" style="border: none">
+                                                    <i class="icon-trash-2"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+                    </table>
                 </div>
+
                 <div class="divider"></div>
                 <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
                     {{ $coupons->links('pagination::bootstrap-5') }}

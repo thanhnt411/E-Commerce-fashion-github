@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\StoreCouponRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
 use App\Models\Coupon;
@@ -250,7 +251,40 @@ class AdminController extends Controller
     //START Coupons
     public function coupons()
     {
-        $coupons = Coupon::orderBy('expiry_date', 'DESC')->paginate(12);
+        $coupons = Coupon::orderBy('expiry_date', 'DESC')->paginate(10);
         return view('admin.coupons', compact('coupons'));
+    }
+
+    public function add_coupons()
+    {
+        return view('admin.add-coupons');
+    }
+
+    public function store_coupons(StoreCouponRequest $request)
+    {
+        $data = $request->validated();
+        $coupons = Coupon::create($data);
+        return redirect()->route('admin.coupons')->with('satus', 'Coupons created successfully!');
+    }
+
+    public function edit_coupons($id)
+    {
+        $coupons = Coupon::findOrFail($id);
+        return view('admin.edit-coupons', compact('coupons'));
+    }
+
+    public function update_coupons(StoreCouponRequest $request, $id)
+    {
+        $coupons = Coupon::findOrFail($id);
+        $data = $request->validated();
+        $coupons->update($data);
+        return redirect()->route('admin.coupons')->with('satus', 'Coupons updated successfully!');
+    }
+
+    public function delete_coupons($id)
+    {
+        $coupons = Coupon::findOrFail($id);
+        $coupons->delete();
+        return redirect()->back()->with('status', 'Coupons deleted successfully!');
     }
 }

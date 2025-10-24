@@ -9,6 +9,7 @@ use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
+use App\Models\Coupon;
 use App\Models\Product;
 use Intervention\Image\Laravel\Facades\Image;
 
@@ -245,4 +246,11 @@ class AdminController extends Controller
         return back()->with('status', 'Products deleted successfully!');
     }
     //END Products
+
+    //START Coupons
+    public function coupons()
+    {
+        $coupons = Coupon::orderBy('expiry_date', 'DESC')->paginate(12);
+        return view('admin.coupons', compact('coupons'));
+    }
 }

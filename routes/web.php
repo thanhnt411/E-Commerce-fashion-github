@@ -77,6 +77,13 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin/coupons/edit/{id}', [AdminController::class, 'edit_coupons'])->name('admin.coupons.edit');
     Route::put('/admin/coupons/update/{id}', [AdminController::class, 'update_coupons'])->name('admin.coupons.update');
     Route::delete('/admin/coupons/{id}/delete', [AdminController::class, 'delete_coupons'])->name('admin.coupons.delete');
+
+    Route::get('/admin/slides', [AdminController::class, 'slides'])->name('admin.slides');
+    Route::get('/admin/slides/add', [AdminController::class, 'add_slides'])->name('admin.slides.add');
+    Route::post('/admin/slides/store', [AdminController::class, 'store_slides'])->name('admin.slides.store');
+    Route::get('/admin/slides/edit/{id}', [AdminController::class, 'edit_slides'])->name('admin.slides.edit');
+    Route::put('/admin/slides/update/{id}', [AdminController::class, 'update_slides'])->name('admin.slides.update');
+    Route::delete('/admin/slides/{id}/delete', [AdminController::class, 'delete_slides'])->name('admin.slides.delete');
 });
 
 require __DIR__ . '/auth.php';

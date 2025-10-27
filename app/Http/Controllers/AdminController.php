@@ -9,9 +9,11 @@ use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\StoreCouponRequest;
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\StoreSlideRequest;
 use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Product;
+use App\Models\Slide;
 use Intervention\Image\Laravel\Facades\Image;
 
 class AdminController extends Controller
@@ -286,5 +288,64 @@ class AdminController extends Controller
         $coupons = Coupon::findOrFail($id);
         $coupons->delete();
         return redirect()->back()->with('status', 'Coupons deleted successfully!');
+    }
+    //END Coupons
+
+    public function slides()
+    {
+        $slides = Slide::orderBy('id', 'DESC')->paginate(12);
+        return view('admin.slides', compact('slides'));
+    }
+
+    public function add_slides()
+    {
+        return view('admin.add-slides');
+    }
+
+    public function store_slides(StoreSlideRequest $request)
+    {
+        $data = $request->validated();
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = time() . '-' . $file->getClientOriginalName();
+            $path = $file->storeAs('slides', $fileName);
+        }
+
+        $data['image'] =  $path;
+        $slides = Slide::create($data);
+        return redirect()->route('admin.slides')->with('status', 'Slide created successfully!');
+    }
+
+    public function edit_slides($id)
+    {
+        $slides = Slide::findOrFail($id);
+        return view('admin.edit-slides', compact('slides'));
+    }
+
+    public function update_slides(StoreSlideRequest $request, $id)
+    {
+        $slides = Slide::findOrFail($id);
+        $data = $request->validated();
+        if ($request->hasFile('image')) {
+            if ($slides->image && Storage::exists($slides->image)) {
+                Storage::delete($slides->image);
+            }
+            $file = $request->file('image');
+            $fileName = time() . '-' . $file->getClientOriginalName();
+            $path = $file->storeAs('slides', $fileName);
+        }
+        $data['image'] =  $path;
+        $slides->update($data);
+        return redirect()->route('admin.slides')->with('status', 'Slides updated successfully!');
+    }
+
+    public function delete_slides($id)
+    {
+        $slides = Slide::findOrFail($id);
+        if ($slides->image && Storage::exists($slides->image)) {
+            Storage::delete($slides->image);
+        }
+        $slides->delete();
+        return back()->with('status', 'Slides deleted successfully!');
     }
 }

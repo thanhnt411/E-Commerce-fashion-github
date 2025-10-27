@@ -19,7 +19,7 @@
                         <em>Checkout Your Items List</em>
                     </span>
                 </a>
-                <a href="order-confirmation.html" class="checkout-steps__item">
+                <a href="{{ route('cart.confirm') }}" class="checkout-steps__item">
                     <span class="checkout-steps__item-number">03</span>
                     <span class="checkout-steps__item-title">
                         <span>Confirmation</span>
@@ -27,7 +27,8 @@
                     </span>
                 </a>
             </div>
-            <form name="checkout-form" action="">
+            <form name="checkout-form" action="{{ route('cart.place.order') }}" method="POST">
+                @csrf
                 <div class="checkout-form">
                     <div class="billing-info__wrapper">
                         <div class="row">
@@ -219,22 +220,10 @@
                                 </table>
                             </div>
                             <div class="checkout__payment-methods">
+
                                 <div class="form-check">
-                                    <input class="form-check-input form-check-input_fill" type="radio"
-                                        name="checkout_payment_method" id="checkout_payment_method_1" checked>
-                                    <label class="form-check-label" for="checkout_payment_method_1">
-                                        Direct bank transfer
-                                        <p class="option-detail">
-                                            Make your payment directly into our bank account. Please use your Order ID as
-                                            the payment
-                                            reference.Your order will not be shipped until the funds have cleared in our
-                                            account.
-                                        </p>
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input form-check-input_fill" type="radio"
-                                        name="checkout_payment_method" id="checkout_payment_method_2">
+                                    <input class="form-check-input form-check-input_fill" type="radio" name="mode"
+                                        id="mode1" value="card">
                                     <label class="form-check-label" for="checkout_payment_method_2">
                                         Check payments
                                         <p class="option-detail">
@@ -247,9 +236,9 @@
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input form-check-input_fill" type="radio"
-                                        name="checkout_payment_method" id="checkout_payment_method_3">
-                                    <label class="form-check-label" for="checkout_payment_method_3">
+                                    <input class="form-check-input form-check-input_fill" type="radio" name="mode"
+                                        id="mode2" value="cod">
+                                    <label class="form-check-label" for="mode2">
                                         Cash on delivery
                                         <p class="option-detail">
                                             Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida
@@ -261,8 +250,8 @@
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input form-check-input_fill" type="radio"
-                                        name="checkout_payment_method" id="checkout_payment_method_4">
+                                    <input class="form-check-input form-check-input_fill" type="radio" name="mode"
+                                        id="mode3" value="paypal">
                                     <label class="form-check-label" for="checkout_payment_method_4">
                                         Paypal
                                         <p class="option-detail">
@@ -282,7 +271,7 @@
                                         policy</a>.
                                 </div>
                             </div>
-                            <button class="btn btn-primary btn-checkout">PLACE ORDER</button>
+                            <button type="submit" class="btn btn-primary btn-checkout">PLACE ORDER</button>
                         </div>
                     </div>
                 </div>

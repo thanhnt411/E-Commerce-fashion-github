@@ -28,7 +28,7 @@
                         <em>Checkout Your Items List</em>
                     </span>
                 </a>
-                <a href="order-confirmation.html" class="checkout-steps__item">
+                <a href="{{ route('cart.confirm') }}" class="checkout-steps__item">
                     <span class="checkout-steps__item-number">03</span>
                     <span class="checkout-steps__item-title">
                         <span>Confirmation</span>

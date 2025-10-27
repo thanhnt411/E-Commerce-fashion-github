@@ -11,6 +11,8 @@ use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/shop/{product_slug}', [HomeController::class, 'products_detail'])->name('shop.product.details');
+
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product_slug}', [ShopController::class, 'products_detail'])->name('shop.product.details');
 

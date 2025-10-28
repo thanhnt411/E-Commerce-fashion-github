@@ -3,18 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Order;
+use App\Models\Slide;
+use App\Models\Coupon;
+use App\Models\Contact;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreBrandRequest;
-use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\StoreSlideRequest;
 use App\Http\Requests\StoreCouponRequest;
 use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\StoreSlideRequest;
-use App\Models\Category;
-use App\Models\Contact;
-use App\Models\Coupon;
-use App\Models\Product;
-use App\Models\Slide;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Models\OrderItem;
+use App\Models\Transaction;
 use Intervention\Image\Laravel\Facades\Image;
 
 class AdminController extends Controller
@@ -352,9 +355,26 @@ class AdminController extends Controller
     }
     //END Sliedes
 
+    //START Contact
     public function contacts()
     {
         $contacts = Contact::orderBy('id', 'DESC')->paginate(10);
         return view('admin.contacts', compact('contacts'));
+    }
+    //END Contact
+
+    //START Order
+    public function orders()
+    {
+        $orders = Order::orderBy('created_at', 'DESC')->paginate(12);
+        return view('admin.orders', compact('orders'));
+    }
+
+    public function orders_details($order_id)
+    {
+        $orders = Order::findOrFail($order_id);
+        $orderItems = OrderItem::where('order_id', $order_id)->orderBy('id')->paginate(10);
+        $transactions = Transaction::where('order_id', $order_id)->first();
+        return view('admin.orders-details', compact('orders', 'orderItems', 'transactions'));
     }
 }

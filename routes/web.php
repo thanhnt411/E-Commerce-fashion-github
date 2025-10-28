@@ -94,6 +94,9 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::delete('/admin/slides/{id}/delete', [AdminController::class, 'delete_slides'])->name('admin.slides.delete');
 
     Route::get('/admin/contacts', [AdminController::class, 'contacts'])->name('admin.contacts');
+
+    Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
+    Route::get('/admin/orders/{order_id}', [AdminController::class, 'orders_details'])->name('admin.orders.details');
 });
 
 require __DIR__ . '/auth.php';

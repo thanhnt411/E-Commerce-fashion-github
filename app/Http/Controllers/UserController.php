@@ -28,4 +28,10 @@ class UserController extends Controller
         $transactions = Transaction::where('order_id', $order_id)->first();
         return view('user.orders-details', compact('orders', 'orderItems', 'transactions'));
     }
+
+    public function address()
+    {
+        $orders = Order::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->first();
+        return view('user.address', compact('orders'));
+    }
 }

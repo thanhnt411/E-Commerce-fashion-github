@@ -12,14 +12,14 @@
                         <em>Manage Your Items List</em>
                     </span>
                 </a>
-                <a href="{{ route('cart.checkout') }}" class="checkout-steps__item active">
+                <a href="" class="checkout-steps__item active">
                     <span class="checkout-steps__item-number">02</span>
                     <span class="checkout-steps__item-title">
                         <span>Shipping and Checkout</span>
                         <em>Checkout Your Items List</em>
                     </span>
                 </a>
-                <a href="{{ route('cart.confirm') }}" class="checkout-steps__item">
+                <a href="" class="checkout-steps__item">
                     <span class="checkout-steps__item-number">03</span>
                     <span class="checkout-steps__item-title">
                         <span>Confirmation</span>
@@ -27,7 +27,7 @@
                     </span>
                 </a>
             </div>
-            <form name="checkout-form" action="{{ route('cart.place.order') }}" method="POST">
+            <form name="checkout-form" action="{{ route('cart.place.an.order') }}" method="POST">
                 @csrf
                 <div class="checkout-form">
                     <div class="billing-info__wrapper">
@@ -226,43 +226,26 @@
                                         id="mode1" value="card">
                                     <label class="form-check-label" for="checkout_payment_method_2">
                                         Check payments
-                                        <p class="option-detail">
-                                            Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida
-                                            nec dui. Aenean
-                                            aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra
-                                            nunc, ut aliquet
-                                            magna posuere eget.
-                                        </p>
+
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input form-check-input_fill" type="radio" name="mode"
-                                        id="mode2" value="cod">
-                                    <label class="form-check-label" for="mode2">
-                                        Cash on delivery
-                                        <p class="option-detail">
-                                            Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida
-                                            nec dui. Aenean
-                                            aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra
-                                            nunc, ut aliquet
-                                            magna posuere eget.
-                                        </p>
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input form-check-input_fill" type="radio" name="mode"
-                                        id="mode3" value="paypal">
+                                        id="mode2" value="paypal">
                                     <label class="form-check-label" for="checkout_payment_method_4">
                                         Paypal
-                                        <p class="option-detail">
-                                            Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida
-                                            nec dui. Aenean
-                                            aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra
-                                            nunc, ut aliquet
-                                            magna posuere eget.
-                                        </p>
+
                                     </label>
                                 </div>
+                                <div class="form-check">
+                                    <input class="form-check-input form-check-input_fill" type="radio" name="mode"
+                                        id="mode3" value="cod">
+                                    <label class="form-check-label" for="mode3">
+                                        Cash on delivery
+
+                                    </label>
+                                </div>
+
                                 <div class="policy-text">
                                     Your personal data will be used to process your order, support your experience
                                     throughout this
@@ -271,7 +254,7 @@
                                         policy</a>.
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-checkout">PLACE ORDER</button>
+                            <button class="btn btn-primary btn-checkout">PLACE ORDER</button>
                         </div>
                     </div>
                 </div>

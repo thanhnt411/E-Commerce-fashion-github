@@ -30,7 +30,7 @@ class StoreAddressRequest extends FormRequest
             'state' => 'required|',
             'landmark' => 'required|',
             'zip' => 'required|numeric|digits:6',
-            'country' => 'required',
+            'country' => 'required|',
         ];
     }
 }

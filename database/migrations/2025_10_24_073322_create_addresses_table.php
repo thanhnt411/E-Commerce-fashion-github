@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('landmark')->nullable();
             $table->string('zip');
             $table->string('type')->default('home');
-            $table->boolean('isdeafult')->default(false);
+            $table->boolean('isdefault')->default(false);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

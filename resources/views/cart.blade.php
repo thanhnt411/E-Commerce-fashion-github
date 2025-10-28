@@ -14,21 +14,21 @@
         <section class="shop-checkout container">
             <h2 class="page-title">Cart</h2>
             <div class="checkout-steps">
-                <a href="{{ route('cart.index') }}" class="checkout-steps__item active">
+                <a href="" class="checkout-steps__item active">
                     <span class="checkout-steps__item-number">01</span>
                     <span class="checkout-steps__item-title">
                         <span>Shopping Bag</span>
                         <em>Manage Your Items List</em>
                     </span>
                 </a>
-                <a href="{{ route('cart.checkout') }}" class="checkout-steps__item">
+                <a href="" class="checkout-steps__item">
                     <span class="checkout-steps__item-number">02</span>
                     <span class="checkout-steps__item-title">
                         <span>Shipping and Checkout</span>
                         <em>Checkout Your Items List</em>
                     </span>
                 </a>
-                <a href="{{ route('cart.confirm') }}" class="checkout-steps__item">
+                <a href="" class="checkout-steps__item">
                     <span class="checkout-steps__item-number">03</span>
                     <span class="checkout-steps__item-title">
                         <span>Confirmation</span>
@@ -118,8 +118,7 @@
                         </table>
                         <div class="cart-table-footer">
                             @if (!Session::has('coupon'))
-                                <form method="POST" action="{{ route('cart.coupons') }}"
-                                    class="position-relative bg-body">
+                                <form method="POST" action="{{ route('cart.coupons') }}" class="position-relative bg-body">
                                     @csrf
                                     <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code"
                                         value="">

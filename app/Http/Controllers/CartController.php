@@ -114,72 +114,87 @@ class CartController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-        $address = Address::where('user_id', Auth::user()->id)->where('isdeafult', 1)->first();
+        $address = Address::where('user_id', Auth::user()->id)->where('isdefault', 1)->first();
         return view('checkout', compact('address'));
     }
 
-    public function place_an_order(StoreAddressRequest $request)
+    public function place_an_order(Request $request)
     {
-        dd(Session::get('checkout'));
         $user_id = Auth::user()->id;
-        $address = Address::where('user_id', $user_id)->where('isdeafult', true)->first();
+        $address = Address::where('user_id', $user_id)->where('isdefault', true)->first();
         if (!$address) {
-            $data = $request->validated();
-            $data['user_id'] = $user_id;
-            $data['country'] = 'Vietnam';
-            $data['isdeafult'] = true;
-            $address = Address::create($data);
+            $request->validate([
+                'name' => 'required|max:100',
+                'phone' => 'required|numeric|digits:10',
+                'zip' => 'required|numeric|digits:6',
+                'state' => 'required|',
+                'city' => 'required|',
+                'address' => 'required|',
+                'locality' => 'required|',
+                'landmark' => 'required|',
+            ]);
+
+            $address = new Address();
+            $address->name = $request->name;
+            $address->phone = $request->phone;
+            $address->zip = $request->zip;
+            $address->state = $request->state;
+            $address->city = $request->city;
+            $address->address = $request->address;
+            $address->locality = $request->locality;
+            $address->landmark = $request->landmark;
+            $address->country = 'VietNam';
+            $address->user_id = $user_id;
+            $address->isdefault = true;
+            $address->save();
         }
         $this->setAmountforCheckout();
-        $checkout = Session::get('checkout');
 
-
-
-        $order = Order::create([
-            'user_id' => $user_id,
-            'subtotal' => $checkout['subtotal'],
-            'discount' => $checkout['discount'],
-            'tax' => $checkout['tax'],
-            'total' => $checkout['total'],
-            'name' => $address->name,
-            'phone' => $address->phone,
-            'locality' => $address->locality,
-            'address' => $address->address,
-            'city' => $address->city,
-            'state' => $address->state,
-            'country' => $address->country,
-            'landmark' => $address->landmark,
-            'zip' => $address->zip,
-        ]);
+        $order = new Order();
+        $order->user_id = $user_id;
+        $order->subtotal = Session::get('checkout')['subtotal'];
+        $order->discount =  Session::get('checkout')['discount'];
+        $order->tax =  Session::get('checkout')['tax'];
+        $order->total =  Session::get('checkout')['total'];
+        $order->name = $address->name;
+        $order->phone = $address->phone;
+        $order->locality = $address->locality;
+        $order->address = $address->address;
+        $order->city = $address->city;
+        $order->state = $address->state;
+        $order->country = $address->country;
+        $order->landmark = $address->landmark;
+        $order->zip = $address->zip;
+        $order->save();
 
         foreach (Cart::instance('cart')->content() as $item) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_id' => $item->id,
-                'price' => $item->price,
-                'quantity' => $item->qty
-            ]);
+            $orderItem = new OrderItem();
+            $orderItem->product_id = $item->id;
+            $orderItem->order_id = $order->id;
+            $orderItem->price = $item->price;
+            $orderItem->quantity = $item->qty;
+            $orderItem->save();
         }
 
-        if ($request->mode == 'card') {
-            # code...
-        } elseif ($request->mode == 'paypal') {
-            # code...
-        } elseif ($request->mode == 'cod') {
-            $transaction = Transaction::create([
-                'user_id' => $user_id,
-                'order_id' => $order->id,
-                'mode' => $request->mode,
-                'status' => 'pending',
-            ]);
+        if ($request->mode == "card") {
+            //
+        } elseif ($request->mode == "paypal") {
+            //
+        } elseif ($request->mode == "cod") {
+            $transaction = new Transaction();
+            $transaction->user_id = $user_id;
+            $transaction->order_id = $order->id;
+            $transaction->mode = $request->mode;
+            $transaction->status = "pending";
+            $transaction->save();
         }
 
         Cart::instance('cart')->destroy();
         Session::forget('checkout');
         Session::forget('coupon');
-        Session::forget('discount');
+        Session::forget('discounts');
         Session::put('order_id', $order->id);
-        return redirect()->route('cart.confirm');
+        return redirect()->route('cart.order.confirmation');
     }
 
     public function setAmountforCheckout()

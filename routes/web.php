@@ -33,9 +33,9 @@ Route::post('/cart/coupons', [CartController::class, 'apply_coupons_code'])->nam
 Route::delete('/cart/coupons/remove', [CartController::class, 'remove_coupon_code'])->name('cart.coupons.delete');
 
 Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-Route::post('/place_an_order', [CartController::class, 'place_an_order'])->name('cart.place.order');
+Route::post('/place_an_order', [CartController::class, 'place_an_order'])->name('cart.place.an.order');
 
-Route::get('/order_confirmation', [CartController::class, 'order_confirmation'])->name('cart.confirm');
+Route::get('/order-confirmation', [CartController::class, 'order_confirmation'])->name('cart.order.confirmation');
 
 
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');

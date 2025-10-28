@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/shop/{product_slug}', [HomeController::class, 'products_detail'])->name('shop.product.details');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact.index');
+Route::post('/contact/store', [HomeController::class, 'store_contact'])->name('contact.store');
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product_slug}', [ShopController::class, 'products_detail'])->name('shop.product.details');
@@ -86,6 +88,8 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin/slides/edit/{id}', [AdminController::class, 'edit_slides'])->name('admin.slides.edit');
     Route::put('/admin/slides/update/{id}', [AdminController::class, 'update_slides'])->name('admin.slides.update');
     Route::delete('/admin/slides/{id}/delete', [AdminController::class, 'delete_slides'])->name('admin.slides.delete');
+
+    Route::get('/admin/contacts', [AdminController::class, 'contacts'])->name('admin.contacts');
 });
 
 require __DIR__ . '/auth.php';

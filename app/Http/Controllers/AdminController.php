@@ -11,6 +11,7 @@ use App\Http\Requests\StoreCouponRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\StoreSlideRequest;
 use App\Models\Category;
+use App\Models\Contact;
 use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\Slide;
@@ -291,6 +292,7 @@ class AdminController extends Controller
     }
     //END Coupons
 
+    //START Slides
     public function slides()
     {
         $slides = Slide::orderBy('id', 'DESC')->paginate(12);
@@ -347,5 +349,12 @@ class AdminController extends Controller
         }
         $slides->delete();
         return back()->with('status', 'Slides deleted successfully!');
+    }
+    //END Sliedes
+
+    public function contacts()
+    {
+        $contacts = Contact::orderBy('id', 'DESC')->paginate(10);
+        return view('admin.contacts', compact('contacts'));
     }
 }

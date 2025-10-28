@@ -88,8 +88,8 @@
                                     <tr>
                                         <td class="pname">
                                             <div class="image">
-                                                <img src="{{ asset('storage/' . $item->product->image) }}" alt=""
-                                                    class="image">
+                                                <img src="{{ asset('storage/' . $item->product->image) }}"
+                                                    alt="{{ $item->product->name }}" class="image">
                                             </div>
                                             <div class="name">
                                                 <a href="{{ route('shop.product.details', ['product_slug' => $item->product->slug]) }}"

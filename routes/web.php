@@ -53,6 +53,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
+    Route::get('/user/orders', [UserController::class, 'orders'])->name('user.orders');
+    Route::get('/user/orders/{order_id}/details', [UserController::class, 'orders_details'])->name('user.orders.details');
 });
 
 Route::middleware(['auth', AuthAdmin::class])->group(function () {

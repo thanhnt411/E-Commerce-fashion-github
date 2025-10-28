@@ -57,6 +57,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/orders/{order_id}/details', [UserController::class, 'orders_details'])->name('user.orders.details');
 
     Route::get('/user/address', [UserController::class, 'address'])->name('user.address');
+
+    Route::get('/user/details', [UserController::class, 'details'])->name('user.details');
+
+    Route::get('/user/wishlist', [UserController::class, 'wishlist'])->name('user.wishlist');
 });
 
 Route::middleware(['auth', AuthAdmin::class])->group(function () {

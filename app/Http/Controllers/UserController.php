@@ -34,4 +34,14 @@ class UserController extends Controller
         $orders = Order::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->first();
         return view('user.address', compact('orders'));
     }
+
+    public function details()
+    {
+        return view('user.details');
+    }
+
+    public function wishlist()
+    {
+        return view('user.wishlist');
+    }
 }

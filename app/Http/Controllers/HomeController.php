@@ -31,4 +31,11 @@ class HomeController extends Controller
         $contacts = Contact::create($data);
         return redirect()->back()->with('success', 'Your message has been successfully!');
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $results = Product::where('name', 'LIKE', "%{$query}%")->get()->take(8);
+        return response()->json($results);
+    }
 }

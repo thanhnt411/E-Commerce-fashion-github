@@ -12,8 +12,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/shop/{product_slug}', [HomeController::class, 'products_detail'])->name('shop.product.details');
+
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact.index');
 Route::post('/contact/store', [HomeController::class, 'store_contact'])->name('contact.store');
+
+Route::get('/search', [HomeController::class, 'search'])->name('home.search');
+
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product_slug}', [ShopController::class, 'products_detail'])->name('shop.product.details');

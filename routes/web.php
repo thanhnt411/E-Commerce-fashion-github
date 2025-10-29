@@ -107,6 +107,8 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
 
     Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
     Route::get('/admin/orders/{order_id}', [AdminController::class, 'orders_details'])->name('admin.orders.details');
+
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
 });
 
 require __DIR__ . '/auth.php';

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Slide;
@@ -388,5 +389,13 @@ class AdminController extends Controller
         $orderItems = OrderItem::where('order_id', $order_id)->orderBy('id')->paginate(10);
         $transactions = Transaction::where('order_id', $order_id)->first();
         return view('admin.orders-details', compact('orders', 'orderItems', 'transactions'));
+    }
+    //END Order
+
+    //START User
+    public function users()
+    {
+        $users = User::orderBy('id', 'DESC')->paginate(12);
+        return view('admin.users', compact('users'));
     }
 }

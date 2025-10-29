@@ -122,11 +122,7 @@
                                                 <div class="text">Orders</div>
                                             </a>
                                         </li>
-                                        <li class="sub-menu-item">
-                                            <a href="order-tracking.html" class="">
-                                                <div class="text">Order tracking</div>
-                                            </a>
-                                        </li>
+
                                     </ul>
                                 </li>
                                 <li class="menu-item">
@@ -149,7 +145,7 @@
                                 </li>
 
                                 <li class="menu-item">
-                                    <a href="users.html" class="">
+                                    <a href="{{ route('admin.users') }}" class="">
                                         <div class="icon"><i class="icon-user"></i></div>
                                         <div class="text">User</div>
                                     </a>

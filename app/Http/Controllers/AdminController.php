@@ -398,4 +398,12 @@ class AdminController extends Controller
         $users = User::orderBy('id', 'DESC')->paginate(12);
         return view('admin.users', compact('users'));
     }
+    //END User
+
+    //START Setting
+    public function settings()
+    {
+        return view('admin.settings');
+    }
+    //END Setting
 }

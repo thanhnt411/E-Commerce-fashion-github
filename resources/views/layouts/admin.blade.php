@@ -152,7 +152,7 @@
                                 </li>
 
                                 <li class="menu-item">
-                                    <a href="settings.html" class="">
+                                    <a href="{{ route('admin.settings') }}" class="">
                                         <div class="icon"><i class="icon-settings"></i></div>
                                         <div class="text">Settings</div>
                                     </a>
@@ -441,12 +441,18 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="login.html" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-log-out"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Log out</div>
-                                                </a>
+                                                <form method="POST" action="{{ route('logout') }}"
+                                                    id="logout-form">
+                                                    @csrf
+                                                    <a href="{{ route('logout') }}" class="user-item"
+                                                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                                        <div class="icon">
+                                                            <i class="icon-log-out"></i>
+                                                        </div>
+                                                        <div class="body-title-2">Log out</div>
+                                                    </a>
+                                                </form>
+
                                             </li>
                                         </ul>
                                     </div>

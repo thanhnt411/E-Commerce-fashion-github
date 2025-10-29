@@ -9,22 +9,34 @@ use App\Models\Coupon;
 use App\Models\Contact;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\OrderItem;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\StoreSlideRequest;
 use App\Http\Requests\StoreCouponRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\StoreCategoryRequest;
-use App\Models\OrderItem;
-use App\Models\Transaction;
 use Intervention\Image\Laravel\Facades\Image;
 
 class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin.index');
+        $orders = Order::orderBy('created_at', 'DESC')->paginate(12);
+        $dashboardDatas = DB::select("Select sum(total) As TotalAmount,
+                                    sum(if(status = 'ordered', total, 0)) As TotalOrderedAmount,
+                                    sum(if(status = 'delivered', total, 0)) As TotalDeliveredAmount,
+                                    sum(if(status = 'canceled', total, 0)) As TotalCanceledAmount,
+                                    Count(*) As Total,
+                                    sum(if(status = 'ordered', 1, 0)) As TotalOrdered,
+                                    sum(if(status = 'delivered', 1, 0)) As TotalDelivered,
+                                    sum(if(status = 'canceled', 1, 0)) As TotalCanceled
+                                    From  Orders 
+                                    ");
+        return view('admin.index', compact('orders', 'dashboardDatas'));
     }
 
     public function brands()

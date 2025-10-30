@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: e-commerce-fashion
+    env: php
+    plan: free
+    region: singapore
+    buildCommand: |
+      composer install
+      php artisan key:generate
+      php artisan migrate --force
+    startCommand: vendor/bin/heroku-php-apache2 public/
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        value: https://${RENDER_EXTERNAL_URL}
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: dpg-d41cj2bipnbc73f99bng-a
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        value: ecomerce_db_vx6b
+      - key: DB_USERNAME
+        value: ecomerce_db_vx6b_user
+      - key: DB_PASSWORD
+        sync: false

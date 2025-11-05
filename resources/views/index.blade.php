@@ -218,7 +218,8 @@
                                             </div>
 
                                             <div class="pc__info position-relative">
-                                                <h6 class="pc__title"><a href="details.html">{{ $sproduct->name }}</a>
+                                                <h6 class="pc__title"><a
+                                                        href="{{ route('shop.product.details', ['product_slug' => $sproduct->slug]) }}">{{ $sproduct->name }}</a>
                                                 </h6>
                                                 <div class="product-card__price d-flex">
                                                     <span class="money price">
@@ -322,7 +323,7 @@
                             </div>
                             <div class="category-banner__item-content">
                                 <h3 class="mb-0">Blazers</h3>
-                                <a href="#" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
+                                <a href="" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
                             </div>
                         </div>
                     </div>
@@ -353,14 +354,16 @@
                         <div class="col-6 col-md-4 col-lg-3">
                             <div class="product-card product-card_style3 mb-3 mb-md-4 mb-xxl-5">
                                 <div class="pc__img-wrapper">
-                                    <a href="details.html">
+                                    <a href="{{ route('shop.product.details', ['product_slug' => $sproduct->slug]) }}">
                                         <img loading="lazy" src="{{ asset('storage/' . $fproduct->image) }}"
                                             width="330" height="400" alt="{{ $fproduct->name }}" class="pc__img">
                                     </a>
                                 </div>
 
                                 <div class="pc__info position-relative">
-                                    <h6 class="pc__title"><a href="details.html">{{ $fproduct->name }}</a></h6>
+                                    <h6 class="pc__title"><a
+                                            href="{{ route('shop.product.details', ['product_slug' => $sproduct->slug]) }}">{{ $fproduct->name }}</a>
+                                    </h6>
                                     <div class="product-card__price d-flex align-items-center">
                                         <span class="money price text-secondary">
                                             @if ($fproduct->sale_price)

@@ -40,7 +40,7 @@
                                             <span class="menu-link py-1">
                                                 <input type="checkbox" name="categories" value="{{ $category->id }}"
                                                     class="chk-brand"
-                                                    @if (in_array($category->id, explode(',', $f_categories))) checked= "checked" @endif>
+                                                    @if (in_array($category->id, explode(',', $filters['f_categories']))) checked= "checked" @endif>
                                                 {{ $category->name }}
                                             </span>
                                             <span class="text-right float-end">{{ $category->products->count() }}</span>
@@ -155,7 +155,7 @@
                                             <span class="menu-link py-1">
                                                 <input type="checkbox" name="brands" value="{{ $brand->id }}"
                                                     class="chk-brand"
-                                                    @if (in_array($brand->id, explode(',', $f_brands))) checked= "checked" @endif>
+                                                    @if (in_array($brand->id, explode(',', $filters['f_brands']))) checked= "checked" @endif>
                                                 {{ $brand->name }}
                                             </span>
                                             <span class="text-right float-end">{{ $brand->products->count() }}</span>
@@ -188,7 +188,8 @@
                             aria-labelledby="accordion-heading-price" data-bs-parent="#price-filters">
                             <input class="price-range-slider" type="text" name="price_range" value=""
                                 data-slider-min="1" data-slider-max="1000" data-slider-step="5"
-                                data-slider-value="[{{ $min_price }},{{ $max_price }}]" data-currency="$" />
+                                data-slider-value="[{{ $filters['min_price'] }},{{ $filters['max_price'] }}]"
+                                data-currency="$" />
                             <div class="price-range__info d-flex align-items-center mt-2">
                                 <div class="me-auto">
                                     <span class="text-secondary">Min Price: </span>
@@ -315,19 +316,24 @@
                         class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
                         <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0"
                             style="margin-right:20px" aria-label="Page size" id="pagesize" name="pagesize">
-                            <option value="12" {{ $size == 12 ? 'selected' : '' }}>Show</option>
-                            <option value="24" {{ $size == 24 ? 'selected' : '' }}>24</option>
-                            <option value="48" {{ $size == 48 ? 'selected' : '' }}>48</option>
-                            <option value="102" {{ $size == 102 ? 'selected' : '' }}>102</option>
+                            <option value="12" {{ $filters['size'] == 12 ? 'selected' : '' }}>Show</option>
+                            <option value="24" {{ $filters['size'] == 24 ? 'selected' : '' }}>24</option>
+                            <option value="48" {{ $filters['size'] == 48 ? 'selected' : '' }}>48</option>
+                            <option value="102" {{ $filters['size'] == 102 ? 'selected' : '' }}>102</option>
                         </select>
 
                         <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0"
                             aria-label="Sort Items" name="sortitem" id="sortitem">
-                            <option value="-1" {{ $order == -1 ? 'selected' : '' }}>Default Sorting</option>
-                            <option value="1" {{ $order == 1 ? 'selected' : '' }}>Date, new to old</option>
-                            <option value="2" {{ $order == 2 ? 'selected' : '' }}>Date, old to new</option>
-                            <option value="3" {{ $order == 3 ? 'selected' : '' }}>Price, high to low</option>
-                            <option value="4" {{ $order == 4 ? 'selected' : '' }}>Price, low to high</option>
+                            <option value="-1" {{ $filters['order'] == -1 ? 'selected' : '' }}>Default Sorting
+                            </option>
+                            <option value="1" {{ $filters['order'] == 1 ? 'selected' : '' }}>Date, new to old
+                            </option>
+                            <option value="2" {{ $filters['order'] == 2 ? 'selected' : '' }}>Date, old to new
+                            </option>
+                            <option value="3" {{ $filters['order'] == 3 ? 'selected' : '' }}>Price, high to low
+                            </option>
+                            <option value="4" {{ $filters['order'] == 4 ? 'selected' : '' }}>Price, low to high
+                            </option>
                         </select>
 
                         <div class="shop-asc__seprator mx-3 bg-light d-none d-md-block order-md-0"></div>
@@ -491,12 +497,12 @@
     <form id="frmfilter" method="GET" action="{{ route('shop.index') }}">
         @csrf
         <input type="hidden" name="page" value="{{ $products->currentPage() }}">
-        <input type="hidden" name="size" id="size" value="{{ $size }}">
-        <input type="hidden" name="order" id="order" value="{{ $order }}">
+        <input type="hidden" name="size" id="size" value="{{ $filters['size'] }}">
+        <input type="hidden" name="order" id="order" value="{{ $filters['order'] }}">
         <input type="hidden" name="brands" id="hdnBrand">
         <input type="hidden" name="categories" id="hdnCategory">
-        <input type="hidden" name="min" id="hdnMinPrice" value="{{ $min_price }}">
-        <input type="hidden" name="max" id="hdnMaxPrice" value="{{ $max_price }}">
+        <input type="hidden" name="min" id="hdnMinPrice" value="{{ $filters['min_price'] }}">
+        <input type="hidden" name="max" id="hdnMaxPrice" value="{{ $filters['max_price'] }}">
     </form>
 @endsection
 

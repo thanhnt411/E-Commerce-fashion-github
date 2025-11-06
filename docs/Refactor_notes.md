@@ -8,10 +8,7 @@
 
 ## 1. Mục tiêu refactor hôm nay
 
--Chuẩn hóa cấu trúc trong app/
--Tách xử lý DB và logic khỏi controller(HomeController)
--Chỉnh lại tên funciton
--Gom nhóm route theo prefix
+-Tách xử lý DB và logic khỏi controller(ShopController)
 
 ---
 

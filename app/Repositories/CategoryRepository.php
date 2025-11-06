@@ -19,4 +19,9 @@ class CategoryRepository
     {
         return $this->model->orderBy('id', 'DESC')->take($limit)->get();
     }
+
+    public function getFirstCategory()
+    {
+        return $this->model->orderBy('name', 'ASC')->get();
+    }
 }

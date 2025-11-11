@@ -1,5 +1,6 @@
 <?php
 
+use App\Facades\Payment;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
@@ -9,6 +10,12 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Route;
+
+Route::get('payment', function () {
+    $test = Payment::charge(100);
+    $test1 = Payment::count(200);
+    return $test . $test1;
+});
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/about', [HomeController::class, 'about'])->name('about.index');

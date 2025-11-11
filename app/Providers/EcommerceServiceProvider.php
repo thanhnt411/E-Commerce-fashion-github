@@ -13,15 +13,13 @@ class EcommerceServiceProvider extends ServiceProvider
     public function register(): void
     {
 
-        $this->app->bind(UserService::class);
-        dd(app()->bound(UserService::class));
+        $this->app->bind('payment', function () {
+            return new \App\Services\PaymentService();
+        });
     }
 
     /**
      * Bootstrap services.
      */
-    public function boot(): void
-    {
-        dd('EcommerceServiceProvider boot() đang chạy!');
-    }
+    public function boot(): void {}
 }

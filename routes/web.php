@@ -11,10 +11,8 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Route;
 
-Route::get('payment', function () {
-    $test = Payment::charge(100);
-    $test1 = Payment::count(200);
-    return $test . $test1;
+Route::get('/check', function () {
+    return 'OK';
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');

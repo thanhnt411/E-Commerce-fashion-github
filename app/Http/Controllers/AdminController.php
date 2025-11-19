@@ -387,9 +387,12 @@ class AdminController extends Controller
         return view('admin.orders', compact('orders'));
     }
 
-    public function orders_details($order_id)
+    public function orders_details(Request $request, $order_id)
     {
         $orders = Order::findOrFail($order_id);
+        if ($request->user()->cannot('view', $orders)) {
+            abort(403);
+        }
         $orderItems = OrderItem::where('order_id', $order_id)->orderBy('id')->paginate(10);
         $transactions = Transaction::where('order_id', $order_id)->first();
         return view('admin.orders-details', compact('orders', 'orderItems', 'transactions'));

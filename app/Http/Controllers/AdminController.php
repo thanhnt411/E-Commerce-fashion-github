@@ -14,6 +14,7 @@ use App\Models\OrderItem;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\StoreSlideRequest;
@@ -48,6 +49,9 @@ class AdminController extends Controller
 
     public function add_brand()
     {
+        if (!Gate::allows('access-admin')) {
+            abort(403);
+        }
         return view('admin.add-brand');
     }
 

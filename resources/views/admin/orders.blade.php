@@ -75,13 +75,15 @@
                                         <td class="text-center">{{ $order->orderItems->count() }}</td>
                                         <td class="text-center">{{ $order->delevery_date }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('admin.orders.details', ['order_id' => $order->id]) }}">
-                                                <div class="list-icon-function view-icon">
-                                                    <div class="item eye">
-                                                        <i class="icon-eye"></i>
+                                            @can('view', $order)
+                                                <a href="{{ route('admin.orders.details', ['order_id' => $order->id]) }}">
+                                                    <div class="list-icon-function view-icon">
+                                                        <div class="item eye">
+                                                            <i class="icon-eye"></i>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </a>
+                                                </a>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

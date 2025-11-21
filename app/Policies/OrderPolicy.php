@@ -8,13 +8,13 @@ use Illuminate\Auth\Access\Response;
 
 class OrderPolicy
 {
-    public function before(User $user, string $ability): bool|null
+    /*public function before(User $user, string $ability): bool|null
     {
         if ($user->isAdmin()) {
             return true;
         }
         return null;
-    }
+    }*/
 
     /**
      * Determine whether the user can view any models.
@@ -27,9 +27,12 @@ class OrderPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Order $order): bool
+    public function view(User $user, Order $order): bool|null
     {
-        return false;
+        if ($user->isAdmin()) {
+            return true;
+        }
+        return null;
     }
 
     /**

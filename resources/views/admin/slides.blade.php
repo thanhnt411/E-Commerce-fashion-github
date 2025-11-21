@@ -32,8 +32,10 @@
                             </div>
                         </form>
                     </div>
-                    <a class="tf-button style-1 w208" href="{{ route('admin.slides.add') }}"><i class="icon-plus"></i>Add
-                        new</a>
+                    @can('create', App\Models\Slide::class)
+                        <a class="tf-button style-1 w208" href="{{ route('admin.slides.add') }}"><i class="icon-plus"></i>Add
+                            new</a>
+                    @endcan
                 </div>
                 @if (Session::has('status'))
                     <p class="alert alert-success">{{ Session::get('status') }}</p>
@@ -67,19 +69,24 @@
                                     <td>{{ $slide->link }}</td>
                                     <td>
                                         <div class="list-icon-function">
-                                            <a href="{{ route('admin.slides.edit', ['id' => $slide->id]) }}">
-                                                <div class="item edit">
-                                                    <i class="icon-edit-3"></i>
-                                                </div>
-                                            </a>
-                                            <form action="{{ route('admin.slides.delete', ['id' => $slide->id]) }}"
-                                                method="POST" onsubmit="return confirm('Xóa bài này?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="item text-danger delete" style="border:none">
-                                                    <i class="icon-trash-2"></i>
-                                                </button>
-                                            </form>
+                                            @can('update', $slide)
+                                                <a href="{{ route('admin.slides.edit', $slide) }}">
+                                                    <div class="item edit">
+                                                        <i class="icon-edit-3"></i>
+                                                    </div>
+                                                </a>
+                                            @endcan
+
+                                            @can('delete', $slide)
+                                                <form action="{{ route('admin.slides.delete', $slide) }}" method="POST"
+                                                    onsubmit="return confirm('Xóa bài này?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="item text-danger delete" style="border:none">
+                                                        <i class="icon-trash-2"></i>
+                                                    </button>
+                                                </form>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>

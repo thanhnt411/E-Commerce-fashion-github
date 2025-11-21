@@ -29,7 +29,7 @@
             </div>
             <!-- new-category -->
             <div class="wg-box">
-                <form method="POST" action="{{ route('admin.slides.update', ['id' => $slides->id]) }}"
+                <form method="POST" action="{{ route('admin.slides.update', $slides) }}"
                     class="form-new-product form-style-1" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="_method" value="PUT">

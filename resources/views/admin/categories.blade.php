@@ -32,8 +32,10 @@
                             </div>
                         </form>
                     </div>
-                    <a class="tf-button style-1 w208" href="{{ route('admin.categories.add') }}"><i
-                            class="icon-plus"></i>Add new</a>
+                    @can('create', App\Models\Brand::class)
+                        <a class="tf-button style-1 w208" href="{{ route('admin.categories.add') }}"><i
+                                class="icon-plus"></i>Add new</a>
+                    @endcan
                 </div>
                 @if (Session::has('status'))
                     <p class="alert alert-success">{{ Session::get('status') }}</p>
@@ -64,19 +66,24 @@
                                 <td><a href="#" target="_blank">0</a></td>
                                 <td>
                                     <div class="list-icon-function">
-                                        <a href="{{ route('admin.categories.edit', ['id' => $category->id]) }}">
-                                            <div class="item edit">
-                                                <i class="icon-edit-3"></i>
-                                            </div>
-                                        </a>
-                                        <form action="{{ route('admin.categories.delete', ['id' => $category->id]) }}"
-                                            method="POST" onsubmit="return confirm('Xóa bài này?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="item text-danger delete" style="border:none">
-                                                <i class="icon-trash-2"></i>
-                                            </button>
-                                        </form>
+                                        @can('update', $category)
+                                            <a href="{{ route('admin.categories.edit', $category) }}">
+                                                <div class="item edit">
+                                                    <i class="icon-edit-3"></i>
+                                                </div>
+                                            </a>
+                                        @endcan
+
+                                        @can('delete', $category)
+                                            <form action="{{ route('admin.categories.delete', $category) }}" method="POST"
+                                                onsubmit="return confirm('Xóa bài này?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="item text-danger delete" style="border:none">
+                                                    <i class="icon-trash-2"></i>
+                                                </button>
+                                            </form>
+                                        @endcan
                                     </div>
                                 </td>
                             </tr>

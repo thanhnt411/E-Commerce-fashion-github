@@ -32,8 +32,10 @@
                             </div>
                         </form>
                     </div>
-                    <a class="tf-button style-1 w208" href="{{ route('admin.brand.add') }}"><i class="icon-plus"></i>Add
-                        new</a>
+                    @can('create', App\Models\Brand::class)
+                        <a class="tf-button style-1 w208" href="{{ route('admin.brand.add') }}"><i class="icon-plus"></i>Add
+                            new</a>
+                    @endcan
                 </div>
 
                 @if (Session::has('status'))
@@ -66,19 +68,24 @@
                                 <td><a href="#" target="_blank">0</a></td>
                                 <td>
                                     <div class="list-icon-function">
-                                        <a href="{{ route('admin.brand.edit', ['id' => $brand->id]) }}">
-                                            <div class="item edit">
-                                                <i class="icon-edit-3"></i>
-                                            </div>
-                                        </a>
-                                        <form action="{{ route('admin.brand.delete', ['id' => $brand->id]) }}"
-                                            method="POST" onsubmit="return confirm('Xóa bài này?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="item text-danger delete" style="border:none">
-                                                <i class="icon-trash-2"></i>
-                                            </button>
-                                        </form>
+                                        @can('update', $brand)
+                                            <a href="{{ route('admin.brand.edit', $brand) }}">
+                                                <div class="item edit">
+                                                    <i class="icon-edit-3"></i>
+                                                </div>
+                                            </a>
+                                        @endcan
+
+                                        @can('delete', $brand)
+                                            <form action="{{ route('admin.brand.delete', $brand) }}" method="POST"
+                                                onsubmit="return confirm('Xóa bài này?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="item text-danger delete" style="border:none">
+                                                    <i class="icon-trash-2"></i>
+                                                </button>
+                                            </form>
+                                        @endcan
                                     </div>
                                 </td>
                             </tr>

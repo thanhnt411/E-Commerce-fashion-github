@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->utype === 'ADM' && $this->name === 'Admin'; //Bình thường có mỗi đk trái cũng đc
     }
+
+    public function isMyOrder(Order $order)
+    {
+        return $this->id === $order->user_id;
+    }
 }

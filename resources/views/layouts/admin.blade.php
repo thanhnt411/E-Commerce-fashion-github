@@ -62,11 +62,13 @@
                                         <div class="text">Products</div>
                                     </a>
                                     <ul class="sub-menu">
-                                        <li class="sub-menu-item">
-                                            <a href="{{ route('admin.products.add') }}" class="">
-                                                <div class="text">Add Product</div>
-                                            </a>
-                                        </li>
+                                        @can('create', App\Models\Product::class)
+                                            <li class="sub-menu-item">
+                                                <a href="{{ route('admin.products.add') }}" class="">
+                                                    <div class="text">Add Product</div>
+                                                </a>
+                                            </li>
+                                        @endcan
                                         <li class="sub-menu-item">
                                             <a href="{{ route('admin.products') }}" class="">
                                                 <div class="text">Products</div>
@@ -80,11 +82,13 @@
                                         <div class="text">Brand</div>
                                     </a>
                                     <ul class="sub-menu">
-                                        <li class="sub-menu-item">
-                                            <a href="{{ route('admin.brand.add') }}" class="">
-                                                <div class="text">New Brand</div>
-                                            </a>
-                                        </li>
+                                        @can('create', App\Models\Brand::class)
+                                            <li class="sub-menu-item">
+                                                <a href="{{ route('admin.brand.add') }}" class="">
+                                                    <div class="text">New Brand</div>
+                                                </a>
+                                            </li>
+                                        @endcan
                                         <li class="sub-menu-item">
                                             <a href="{{ route('admin.brands') }}" class="">
                                                 <div class="text">Brands</div>
@@ -98,11 +102,13 @@
                                         <div class="text">Category</div>
                                     </a>
                                     <ul class="sub-menu">
-                                        <li class="sub-menu-item">
-                                            <a href="{{ route('admin.categories.add') }}" class="">
-                                                <div class="text">New Category</div>
-                                            </a>
-                                        </li>
+                                        @can('create', App\Models\Category::class)
+                                            <li class="sub-menu-item">
+                                                <a href="{{ route('admin.categories.add') }}" class="">
+                                                    <div class="text">New Category</div>
+                                                </a>
+                                            </li>
+                                        @endcan
                                         <li class="sub-menu-item">
                                             <a href="{{ route('admin.categories') }}" class="">
                                                 <div class="text">Categories</div>

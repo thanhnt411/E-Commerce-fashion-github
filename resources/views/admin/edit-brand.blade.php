@@ -28,9 +28,8 @@
             </div>
             <!-- new-category -->
             <div class="wg-box">
-                <form class="form-new-product form-style-1"
-                    action="{{ route('admin.brand.update', ['id' => $brands->id]) }}" method="POST"
-                    enctype="multipart/form-data">
+                <form class="form-new-product form-style-1" action="{{ route('admin.brand.update', $brands) }}"
+                    method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="_method" id="" value="put">
                     <fieldset class="name">

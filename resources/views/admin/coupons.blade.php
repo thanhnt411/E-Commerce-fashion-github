@@ -32,8 +32,10 @@
                             </div>
                         </form>
                     </div>
-                    <a class="tf-button style-1 w208" href="{{ route('admin.coupons.add') }}"><i class="icon-plus"></i>Add
-                        new</a>
+                    @can('create', App\Models\Coupon::class)
+                        <a class="tf-button style-1 w208" href="{{ route('admin.coupons.add') }}"><i class="icon-plus"></i>Add
+                            new</a>
+                    @endcan
                 </div>
 
                 <div class="table-responsive">
@@ -60,21 +62,25 @@
                                     <td>{{ $coupon->expiry_date }}</td>
                                     <td>
                                         <div class="list-icon-function">
-                                            <a href="{{ route('admin.coupons.edit', ['id' => $coupon->id]) }}">
-                                                <div class="item edit">
-                                                    <i class="icon-edit-3"></i>
-                                                </div>
-                                            </a>
-                                            <form action="{{ route('admin.coupons.delete', ['id' => $coupon->id]) }}"
-                                                method="POST"
-                                                onsubmit="return confirm('Are you sure to delete ?').submit();"
-                                                id="form-delete">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="item text-danger delete" style="border: none">
-                                                    <i class="icon-trash-2"></i>
-                                                </button>
-                                            </form>
+                                            @can('update', $coupon)
+                                                <a href="{{ route('admin.coupons.edit', $coupon) }}">
+                                                    <div class="item edit">
+                                                        <i class="icon-edit-3"></i>
+                                                    </div>
+                                                </a>
+                                            @endcan
+
+                                            @can('delete', $coupon)
+                                                <form action="{{ route('admin.coupons.delete', $coupon) }}" method="POST"
+                                                    onsubmit="return confirm('Are you sure to delete ?').submit();"
+                                                    id="form-delete">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="item text-danger delete" style="border: none">
+                                                        <i class="icon-trash-2"></i>
+                                                    </button>
+                                                </form>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>

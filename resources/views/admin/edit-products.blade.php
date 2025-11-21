@@ -30,7 +30,7 @@
             </div>
             <!-- form-Update-product -->
             <form class="tf-section-2 form-Update-product" method="POST" enctype="multipart/form-data"
-                action="{{ route('admin.products.update', ['id' => $products->id]) }}">
+                action="{{ route('admin.products.update', $products) }}">
                 @csrf
                 <input type="hidden" name="_method" value="PUT">
                 <div class="wg-box">

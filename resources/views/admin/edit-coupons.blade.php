@@ -28,7 +28,7 @@
             </div>
             <div class="wg-box">
                 <form class="form-new-product form-style-1" method="POST"
-                    action="{{ route('admin.coupons.update', ['id' => $coupons->id]) }}">
+                    action="{{ route('admin.coupons.update', $coupons) }}">
                     @csrf
 
                     <input type="hidden" name="_method" value="PUT">

@@ -49,9 +49,6 @@ class AdminController extends Controller
 
     public function add_brand()
     {
-        if (!Gate::allows('access-admin')) {
-            abort(403);
-        }
         return view('admin.add-brand');
     }
 
@@ -75,36 +72,35 @@ class AdminController extends Controller
         return redirect()->route('admin.brands')->with('status', 'Brand created successfully!');
     }
 
-    public function edit_brand($id)
+    public function edit_brand(Brand $brand)
     {
-        $brands = Brand::findOrFail($id);
-        return view('admin.edit-brand', compact('brands'));
+        return view('admin.edit-brand', [
+            'brands' => $brand
+        ]);
     }
 
-    public function update_brand(StoreBrandRequest $request, $id)
+    public function update_brand(StoreBrandRequest $request, Brand $brand)
     {
-        $brands = Brand::findOrFail($id);
         $data = $request->validated();
         if ($request->hasFile('image')) {
-            if ($brands->image && Storage::exists($brands->image)) {
-                Storage::delete($brands->image);
+            if ($brand->image && Storage::exists($brand->image)) {
+                Storage::delete($brand->image);
             }
             $file = $request->file('image');
             $fileName = time() . '-' . $file->getClientOriginalName();
             $path = $file->storeAs('brands', $fileName);
         }
         $data['image'] =  $path;
-        $brands->update($data);
+        $brand->update($data);
         return redirect()->route('admin.brands')->with('status', 'Brand updated successfully!');
     }
 
-    public function delete_brand($id)
+    public function delete_brand(Brand $brand)
     {
-        $brands = Brand::findOrFail($id);
-        if ($brands->image && Storage::exists($brands->image)) {
-            Storage::delete($brands->image);
+        if ($brand->image && Storage::exists($brand->image)) {
+            Storage::delete($brand->image);
         }
-        $brands->delete();
+        $brand->delete();
         return back()->with('status', 'Brand deleted successfully!');
     }
 
@@ -134,36 +130,35 @@ class AdminController extends Controller
         return redirect()->route('admin.categories')->with('status', 'Category created successfully!');
     }
 
-    public function edit_categories($id)
+    public function edit_categories(Category $category)
     {
-        $categories = Category::findOrFail($id);
-        return view('admin.edit-categories', compact('categories'));
+        return view('admin.edit-categories', [
+            'categories' => $category
+        ]);
     }
 
-    public function update_categories(StoreCategoryRequest $request, $id)
+    public function update_categories(StoreCategoryRequest $request, Category $category)
     {
-        $categories = Category::findOrFail($id);
         $data = $request->validated();
         if ($request->hasFile('image')) {
-            if ($categories->image && Storage::exists($categories->image)) {
-                Storage::delete($categories->image);
+            if ($category->image && Storage::exists($category->image)) {
+                Storage::delete($category->image);
             }
             $file = $request->file('image');
             $fileName = time() . '-' . $file->getClientOriginalName();
             $path = $file->storeAs('categories', $fileName);
         }
         $data['image'] =  $path;
-        $categories->update($data);
+        $category->update($data);
         return redirect()->route('admin.categories')->with('status', 'Categories updated successfully!');
     }
 
-    public function delete_categories($id)
+    public function delete_categories(Category $category)
     {
-        $categories = Category::findOrFail($id);
-        if ($categories->image && Storage::exists($categories->image)) {
-            Storage::delete($categories->image);
+        if ($category->image && Storage::exists($category->image)) {
+            Storage::delete($category->image);
         }
-        $categories->delete();
+        $category->delete();
         return back()->with('status', 'Categories deleted successfully!');
     }
     //END Categories
@@ -179,7 +174,10 @@ class AdminController extends Controller
     {
         $categories = Category::select('id', 'name')->orderBy('name')->get();
         $brands = Brand::select('id', 'name')->orderBy('name')->get();
-        return view('admin.add-products', compact('categories', 'brands'));
+        return view('admin.add-products', [
+            'categories' => $categories,
+            'brands' => $brands
+        ]);
     }
 
     public function store_products(StoreProductRequest $request)
@@ -209,21 +207,23 @@ class AdminController extends Controller
         return redirect()->route('admin.products')->with('status', 'Products created successfully!');
     }
 
-    public function edit_products($id)
+    public function edit_products(Product $product)
     {
-        $products = Product::findOrFail($id);
         $categories = Category::select('id', 'name')->orderBy('name')->get();
         $brands = Brand::select('id', 'name')->orderBy('name')->get();
-        return view('admin.edit-products', compact('products', 'categories', 'brands'));
+        return view('admin.edit-products', [
+            'products' => $product,
+            'categories' => $categories,
+            'brands' => $brands
+        ]);
     }
 
-    public function update_products(StoreProductRequest $request, $id)
+    public function update_products(StoreProductRequest $request, Product $product)
     {
-        $products = Product::findOrFail($id);
         $data = $request->validated();
         if ($request->hasFile('image')) {
-            if ($products->image && Storage::exists($products->image)) {
-                Storage::delete($products->image);
+            if ($product->image && Storage::exists($product->image)) {
+                Storage::delete($product->image);
             }
             $file = $request->file('image');
             $fileName = time() . '-' . $file->getClientOriginalName();
@@ -243,7 +243,7 @@ class AdminController extends Controller
             }
         }
         if (!empty($gallery)) {
-            foreach (explode(',', $products->images) as $olFile) {
+            foreach (explode(',', $product->images) as $olFile) {
                 if (Storage::exists(trim($olFile))) {
                     Storage::delete($olFile);
                 }
@@ -251,22 +251,21 @@ class AdminController extends Controller
         }
         $data['images'] = implode(',', $gallery);
 
-        $products->update($data);
+        $product->update($data);
         return redirect()->route('admin.products')->with('status', 'Products updated successfully!');
     }
 
-    public function delete_products($id)
+    public function delete_products(Product $product)
     {
-        $products = Product::findOrFail($id);
-        if ($products->image && Storage::exists($products->image)) {
-            Storage::delete($products->image);
+        if ($product->image && Storage::exists($product->image)) {
+            Storage::delete($product->image);
         }
-        foreach (explode(',', $products->images) as $olFile) {
+        foreach (explode(',', $product->images) as $olFile) {
             if (Storage::exists(trim($olFile))) {
                 Storage::delete($olFile);
             }
         }
-        $products->delete();
+        $product->delete();
         return back()->with('status', 'Products deleted successfully!');
     }
     //END Products
@@ -290,24 +289,23 @@ class AdminController extends Controller
         return redirect()->route('admin.coupons')->with('satus', 'Coupons created successfully!');
     }
 
-    public function edit_coupons($id)
+    public function edit_coupons(Coupon $coupon)
     {
-        $coupons = Coupon::findOrFail($id);
-        return view('admin.edit-coupons', compact('coupons'));
+        return view('admin.edit-coupons', [
+            'coupons' => $coupon
+        ]);
     }
 
-    public function update_coupons(StoreCouponRequest $request, $id)
+    public function update_coupons(StoreCouponRequest $request, Coupon $coupon)
     {
-        $coupons = Coupon::findOrFail($id);
         $data = $request->validated();
-        $coupons->update($data);
+        $coupon->update($data);
         return redirect()->route('admin.coupons')->with('satus', 'Coupons updated successfully!');
     }
 
-    public function delete_coupons($id)
+    public function delete_coupons(Coupon $coupon)
     {
-        $coupons = Coupon::findOrFail($id);
-        $coupons->delete();
+        $coupon->delete();
         return redirect()->back()->with('status', 'Coupons deleted successfully!');
     }
     //END Coupons
@@ -338,36 +336,35 @@ class AdminController extends Controller
         return redirect()->route('admin.slides')->with('status', 'Slide created successfully!');
     }
 
-    public function edit_slides($id)
+    public function edit_slides(Slide $slide)
     {
-        $slides = Slide::findOrFail($id);
-        return view('admin.edit-slides', compact('slides'));
+        return view('admin.edit-slides', [
+            'slides' => $slide
+        ]);
     }
 
-    public function update_slides(StoreSlideRequest $request, $id)
+    public function update_slides(StoreSlideRequest $request, Slide $slide)
     {
-        $slides = Slide::findOrFail($id);
         $data = $request->validated();
         if ($request->hasFile('image')) {
-            if ($slides->image && Storage::exists($slides->image)) {
-                Storage::delete($slides->image);
+            if ($slide->image && Storage::exists($slide->image)) {
+                Storage::delete($slide->image);
             }
             $file = $request->file('image');
             $fileName = time() . '-' . $file->getClientOriginalName();
             $path = $file->storeAs('slides', $fileName);
         }
         $data['image'] =  $path;
-        $slides->update($data);
+        $slide->update($data);
         return redirect()->route('admin.slides')->with('status', 'Slides updated successfully!');
     }
 
-    public function delete_slides($id)
+    public function delete_slides(Slide $slide)
     {
-        $slides = Slide::findOrFail($id);
-        if ($slides->image && Storage::exists($slides->image)) {
-            Storage::delete($slides->image);
+        if ($slide->image && Storage::exists($slide->image)) {
+            Storage::delete($slide->image);
         }
-        $slides->delete();
+        $slide->delete();
         return back()->with('status', 'Slides deleted successfully!');
     }
     //END Sliedes
@@ -387,15 +384,15 @@ class AdminController extends Controller
         return view('admin.orders', compact('orders'));
     }
 
-    public function orders_details(Request $request, $order_id)
+    public function orders_details(Order $order)
     {
-        $orders = Order::findOrFail($order_id);
-        if ($request->user()->cannot('view', $orders)) {
-            abort(403);
-        }
-        $orderItems = OrderItem::where('order_id', $order_id)->orderBy('id')->paginate(10);
-        $transactions = Transaction::where('order_id', $order_id)->first();
-        return view('admin.orders-details', compact('orders', 'orderItems', 'transactions'));
+        $orderItems = OrderItem::where('order_id', $order->id)->orderBy('id')->paginate(10);
+        $transactions = Transaction::where('order_id', $order->id)->first();
+        return view('admin.orders-details', [
+            'orders' => $order,
+            'orderItems' => $orderItems,
+            'transactions' => $transactions
+        ]);
     }
     //END Order
 

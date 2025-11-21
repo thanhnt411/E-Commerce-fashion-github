@@ -76,7 +76,7 @@
                                         <td class="text-center">{{ $order->delevery_date }}</td>
                                         <td class="text-center">
                                             @can('view', $order)
-                                                <a href="{{ route('admin.orders.details', ['order_id' => $order->id]) }}">
+                                                <a href="{{ route('admin.orders.details', $order) }}">
                                                     <div class="list-icon-function view-icon">
                                                         <div class="item eye">
                                                             <i class="icon-eye"></i>

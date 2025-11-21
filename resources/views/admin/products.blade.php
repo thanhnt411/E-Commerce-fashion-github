@@ -32,8 +32,10 @@
                             </div>
                         </form>
                     </div>
-                    <a class="tf-button style-1 w208" href="{{ route('admin.products.add') }}"><i class="icon-plus"></i>Add
-                        new</a>
+                    @can('create', App\Models\Product::class)
+                        <a class="tf-button style-1 w208" href="{{ route('admin.products.add') }}"><i class="icon-plus"></i>Add
+                            new</a>
+                    @endcan
                 </div>
                 @if (Session::has('status'))
                     <p class="alert alert-success">{{ Session::get('status') }}</p>
@@ -84,20 +86,25 @@
                                                     <i class="icon-eye"></i>
                                                 </div>
                                             </a>
-                                            <a href="{{ route('admin.products.edit', ['id' => $product->id]) }}">
-                                                <div class="item edit">
-                                                    <i class="icon-edit-3"></i>
-                                                </div>
-                                            </a>
-                                            <form action="{{ route('admin.products.delete', ['id' => $product->id]) }}"
-                                                method="POST" onsubmit="return confirm('Xóa bài này?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="item text-danger delete"
-                                                    style="border:none; display:flex; align-items:center; justify-content:center; padding:0; margin:0;">
-                                                    <i class="icon-trash-2"></i>
-                                                </button>
-                                            </form>
+                                            @can('update', $product)
+                                                <a href="{{ route('admin.products.edit', $product) }}">
+                                                    <div class="item edit">
+                                                        <i class="icon-edit-3"></i>
+                                                    </div>
+                                                </a>
+                                            @endcan
+
+                                            @can('delete', $product)
+                                                <form action="{{ route('admin.products.delete', $product) }}" method="POST"
+                                                    onsubmit="return confirm('Xóa bài này?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="item text-danger delete"
+                                                        style="border:none; display:flex; align-items:center; justify-content:center; padding:0; margin:0;">
+                                                        <i class="icon-trash-2"></i>
+                                                    </button>
+                                                </form>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>

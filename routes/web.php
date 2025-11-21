@@ -1,6 +1,5 @@
 <?php
 
-use App\Facades\Payment;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
@@ -10,10 +9,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/check', function () {
-    return 'OK';
-});
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/about', [HomeController::class, 'about'])->name('about.index');
@@ -84,54 +79,54 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
 
         Route::prefix('brands')->group(function () {
             Route::get('/', [AdminController::class, 'brands'])->name('admin.brands');
-            Route::get('/add', [AdminController::class, 'add_brand'])->name('admin.brand.add');
-            Route::post('/store', [AdminController::class, 'store_brand'])->name('admin.brand.store');
-            Route::get('/edit/{id}', [AdminController::class, 'edit_brand'])->name('admin.brand.edit');
-            Route::put('/update/{id}', [AdminController::class, 'update_brand'])->name('admin.brand.update');
-            Route::delete('/{id}/delete', [AdminController::class, 'delete_brand'])->name('admin.brand.delete');
+            Route::get('/add', [AdminController::class, 'add_brand'])->name('admin.brand.add')->middleware('can:create,App\Models\Brand');
+            Route::post('/store', [AdminController::class, 'store_brand'])->name('admin.brand.store')->middleware('can:create,App\Models\Brand');
+            Route::get('/{brand}/edit', [AdminController::class, 'edit_brand'])->name('admin.brand.edit')->middleware('can:update,brand');
+            Route::put('/{brand}/update', [AdminController::class, 'update_brand'])->name('admin.brand.update')->middleware('can:update,brand');
+            Route::delete('/{brand}/delete', [AdminController::class, 'delete_brand'])->name('admin.brand.delete')->middleware('can:delete,brand');
         });
 
         Route::prefix('categories')->group(function () {
             Route::get('/', [AdminController::class, 'categories'])->name('admin.categories');
-            Route::get('/add', [AdminController::class, 'add_categories'])->name('admin.categories.add');
-            Route::post('/store', [AdminController::class, 'store_categories'])->name('admin.categories.store');
-            Route::get('/edit/{id}', [AdminController::class, 'edit_categories'])->name('admin.categories.edit');
-            Route::put('/update/{id}', [AdminController::class, 'update_categories'])->name('admin.categories.update');
-            Route::delete('/{id}/delete', [AdminController::class, 'delete_categories'])->name('admin.categories.delete');
+            Route::get('/add', [AdminController::class, 'add_categories'])->name('admin.categories.add')->middleware('can:create,App\Models\Category');
+            Route::post('/store', [AdminController::class, 'store_categories'])->name('admin.categories.store')->middleware('can:create,App\Models\Category');
+            Route::get('/{category}/edit', [AdminController::class, 'edit_categories'])->name('admin.categories.edit')->middleware('can:update,category');
+            Route::put('/{category}/update', [AdminController::class, 'update_categories'])->name('admin.categories.update')->middleware('can:update,category');
+            Route::delete('/{category}/delete', [AdminController::class, 'delete_categories'])->name('admin.categories.delete')->middleware('can:delete,category');
         });
 
         Route::prefix('products')->group(function () {
             Route::get('/', [AdminController::class, 'products'])->name('admin.products');
-            Route::get('/add', [AdminController::class, 'add_products'])->name('admin.products.add');
-            Route::post('/store', [AdminController::class, 'store_products'])->name('admin.products.store');
-            Route::get('/edit/{id}', [AdminController::class, 'edit_products'])->name('admin.products.edit');
-            Route::put('/update/{id}', [AdminController::class, 'update_products'])->name('admin.products.update');
-            Route::delete('/{id}/delete', [AdminController::class, 'delete_products'])->name('admin.products.delete');
+            Route::get('/add', [AdminController::class, 'add_products'])->name('admin.products.add')->middleware('can:create,App\Models\Product');
+            Route::post('/store', [AdminController::class, 'store_products'])->name('admin.products.store')->middleware('can:create,App\Models\Product');
+            Route::get('/{product}/edit', [AdminController::class, 'edit_products'])->name('admin.products.edit')->middleware('can:update,product');
+            Route::put('{product}/update', [AdminController::class, 'update_products'])->name('admin.products.update')->middleware('can:update,product');
+            Route::delete('/{product}/delete', [AdminController::class, 'delete_products'])->name('admin.products.delete')->middleware('can:delete,product');
         });
 
         Route::prefix('coupons')->group(function () {
             Route::get('/', [AdminController::class, 'coupons'])->name('admin.coupons');
-            Route::get('/add', [AdminController::class, 'add_coupons'])->name('admin.coupons.add');
-            Route::post('/store', [AdminController::class, 'store_coupons'])->name('admin.coupons.store');
-            Route::get('/edit/{id}', [AdminController::class, 'edit_coupons'])->name('admin.coupons.edit');
-            Route::put('/update/{id}', [AdminController::class, 'update_coupons'])->name('admin.coupons.update');
-            Route::delete('/{id}/delete', [AdminController::class, 'delete_coupons'])->name('admin.coupons.delete');
+            Route::get('/add', [AdminController::class, 'add_coupons'])->name('admin.coupons.add')->middleware('can:create,App\Models\Coupon');
+            Route::post('/store', [AdminController::class, 'store_coupons'])->name('admin.coupons.store')->middleware('can:create,App\Models\Coupon');
+            Route::get('/{coupon}/edit', [AdminController::class, 'edit_coupons'])->name('admin.coupons.edit')->middleware('can:update,coupon');
+            Route::put('/{coupon}/update', [AdminController::class, 'update_coupons'])->name('admin.coupons.update')->middleware('can:update,coupon');
+            Route::delete('/{coupon}/delete', [AdminController::class, 'delete_coupons'])->name('admin.coupons.delete')->middleware('can:delete,coupon');
         });
 
         Route::prefix('slides')->group(function () {
             Route::get('/', [AdminController::class, 'slides'])->name('admin.slides');
-            Route::get('/add', [AdminController::class, 'add_slides'])->name('admin.slides.add');
-            Route::post('/store', [AdminController::class, 'store_slides'])->name('admin.slides.store');
-            Route::get('/edit/{id}', [AdminController::class, 'edit_slides'])->name('admin.slides.edit');
-            Route::put('/update/{id}', [AdminController::class, 'update_slides'])->name('admin.slides.update');
-            Route::delete('/{id}/delete', [AdminController::class, 'delete_slides'])->name('admin.slides.delete');
+            Route::get('/add', [AdminController::class, 'add_slides'])->name('admin.slides.add')->middleware('can:create,App\Models\Slide');
+            Route::post('/store', [AdminController::class, 'store_slides'])->name('admin.slides.store')->middleware('can:create,App\Models\Slide');
+            Route::get('/{slide}/edit', [AdminController::class, 'edit_slides'])->name('admin.slides.edit')->middleware('can:update,slide');
+            Route::put('/{slide}/update', [AdminController::class, 'update_slides'])->name('admin.slides.update')->middleware('can:update,slide');
+            Route::delete('/{slide}/delete', [AdminController::class, 'delete_slides'])->name('admin.slides.delete')->middleware('can:delete,slide');
         });
 
         Route::get('/contacts', [AdminController::class, 'contacts'])->name('admin.contacts');
 
         Route::prefix('orders')->group(function () {
             Route::get('/', [AdminController::class, 'orders'])->name('admin.orders');
-            Route::get('/{order_id}', [AdminController::class, 'orders_details'])->name('admin.orders.details');
+            Route::get('/{order}', [AdminController::class, 'orders_details'])->name('admin.orders.details')->middleware('can:view,order');
         });
 
         Route::get('/users', [AdminController::class, 'users'])->name('admin.users');

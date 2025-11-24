@@ -2,17 +2,26 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\Repositories\ProductRepositoryInterface;
 use App\Models\Product;
+use Illuminate\Support\Collection;
 
-class ProductRepository
+class ProductRepository implements ProductRepositoryInterface
 {
     /**
      * Create a new class instance.
      */
-    protected $model;
-    public function __construct(Product $model)
+
+    public function __construct(protected Product $model) {}
+
+    public function all(): Collection
     {
-        $this->model = $model;
+        return $this->model->all();
+    }
+
+    public function find(int $id): ?Product
+    {
+        return $this->model->find($id);
     }
 
     public function getSaleProduct($limit = 8)

@@ -2,28 +2,24 @@
 
 namespace App\Services;
 
+use App\Interfaces\Repositories\ProductRepositoryInterface;
+use App\Interfaces\Services\HomeServiceInterface;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ContactRepository;
-use App\Repositories\ProductRepository;
 use App\Repositories\SlideRepository;
 
-class HomeService
+class HomeService implements HomeServiceInterface
 {
     /**
      * Create a new class instance.
      */
-    protected $categoryRepo, $slideRepo, $productRepo, $contactRepo;
+
     public function __construct(
-        CategoryRepository $categoryRepo,
-        SlideRepository $slideRepo,
-        ProductRepository $productRepo,
-        ContactRepository $contactRepo
-    ) {
-        $this->categoryRepo = $categoryRepo;
-        $this->slideRepo = $slideRepo;
-        $this->productRepo = $productRepo;
-        $this->contactRepo = $contactRepo;
-    }
+        protected  CategoryRepository $categoryRepo,
+        protected  SlideRepository $slideRepo,
+        protected  ProductRepositoryInterface $productRepo,
+        protected  ContactRepository $contactRepo
+    ) {}
 
     public function getHomeData()
     {

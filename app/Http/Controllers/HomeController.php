@@ -3,20 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreContactRequest;
-use App\Models\Slide;
-use App\Models\Product;
-use App\Models\Category;
-use App\Models\Contact;
-use App\Services\HomeService;
+use App\Interfaces\Services\HomeServiceInterface;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    protected $homeService;
-    public function __construct(HomeService $homeService)
-    {
-        $this->homeService = $homeService;
-    }
+    public function __construct(protected HomeServiceInterface $homeService) {}
 
     public function index()
     {

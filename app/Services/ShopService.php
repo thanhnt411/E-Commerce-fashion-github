@@ -2,25 +2,22 @@
 
 namespace App\Services;
 
-use App\Repositories\BrandRepository;
-use App\Repositories\CategoryRepository;
-use App\Repositories\ProductRepository;
+use App\Interfaces\Repositories\BrandRepositoryInterface;
+use App\Interfaces\Repositories\CategoryRepositoryInterface;
+use App\Interfaces\Repositories\ProductRepositoryInterface;
+use App\Interfaces\Services\ShopServiceInterface;
 
-class ShopService
+
+class ShopService implements ShopServiceInterface
 {
     /**
      * Create a new class instance.
      */
-    protected $productRepo, $categoryRepo, $brandRepo;
     public function __construct(
-        ProductRepository $productRepo,
-        CategoryRepository $categoryRepo,
-        BrandRepository $brandRepo,
-    ) {
-        $this->productRepo = $productRepo;
-        $this->categoryRepo = $categoryRepo;
-        $this->brandRepo = $brandRepo;
-    }
+        protected ProductRepositoryInterface $productRepo,
+        protected CategoryRepositoryInterface $categoryRepo,
+        protected BrandRepositoryInterface $brandRepo,
+    ) {}
 
     public function getShopData()
     {

@@ -2,19 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Product;
-use App\Services\ShopService;
+use App\Interfaces\Services\ShopServiceInterface;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
-    protected $shopService;
-    public function __construct(ShopService $shopService)
-    {
-        $this->shopService = $shopService;
-    }
+    public function __construct(protected ShopServiceInterface $shopService) {}
 
     public function index(Request $request)
     {

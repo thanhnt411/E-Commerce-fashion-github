@@ -2,17 +2,25 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\Repositories\CategoryRepositoryInterface;
 use App\Models\Category;
+use Illuminate\Support\Collection;
 
-class CategoryRepository
+class CategoryRepository implements CategoryRepositoryInterface
 {
     /**
      * Create a new class instance.
      */
-    protected $model;
-    public function __construct(Category $model)
+    public function __construct(protected Category $model) {}
+
+    public function all(): Collection
     {
-        $this->model = $model;
+        return $this->model->all();
+    }
+
+    public function find(int $id): ?Category
+    {
+        return $this->model->find($id);
     }
 
     public function getLatesCategory($limit = 10)

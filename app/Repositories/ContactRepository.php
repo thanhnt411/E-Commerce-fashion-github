@@ -9,13 +9,9 @@ class ContactRepository
     /**
      * Create a new class instance.
      */
-    protected $model;
-    public function __construct(Contact $model)
-    {
-        $this->model = $model;
-    }
+    public function __construct(protected Contact $model) {}
 
-    public function create(array $data)
+    public function create($data)
     {
         return $this->model->create($data);
     }

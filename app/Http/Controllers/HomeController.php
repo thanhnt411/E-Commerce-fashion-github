@@ -28,7 +28,7 @@ class HomeController extends Controller
 
     public function store_contact(StoreContactRequest $request)
     {
-        $this->homeService->saveContact($request->validated());
+        $this->homeService->saveContact($request->toDTO());
         return redirect()->back()->with('success', 'Your message has been successfully!');
     }
 

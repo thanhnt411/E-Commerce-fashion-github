@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
+use App\DTOs\ContactData;
+use App\Interfaces\Repositories\CategoryRepositoryInterface;
 use App\Interfaces\Repositories\ProductRepositoryInterface;
 use App\Interfaces\Services\HomeServiceInterface;
-use App\Repositories\CategoryRepository;
 use App\Repositories\ContactRepository;
 use App\Repositories\SlideRepository;
 
@@ -15,7 +16,7 @@ class HomeService implements HomeServiceInterface
      */
 
     public function __construct(
-        protected  CategoryRepository $categoryRepo,
+        protected  CategoryRepositoryInterface $categoryRepo,
         protected  SlideRepository $slideRepo,
         protected  ProductRepositoryInterface $productRepo,
         protected  ContactRepository $contactRepo
@@ -31,9 +32,9 @@ class HomeService implements HomeServiceInterface
         ];
     }
 
-    public function saveContact(array $data)
+    public function saveContact(ContactData $data)
     {
-        return $this->contactRepo->create($data);
+        return $this->contactRepo->create($data->toArray());
     }
 
     public function searchProduct($query)

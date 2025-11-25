@@ -12,16 +12,14 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\OrderItem;
 use App\Models\Transaction;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\StoreSlideRequest;
 use App\Http\Requests\StoreCouponRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\StoreCategoryRequest;
-use Intervention\Image\Laravel\Facades\Image;
+
 
 class AdminController extends Controller
 {

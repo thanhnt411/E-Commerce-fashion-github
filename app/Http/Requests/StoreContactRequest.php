@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\DTOs\ContactData;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreContactRequest extends FormRequest
@@ -27,5 +28,16 @@ class StoreContactRequest extends FormRequest
             'phone' => 'required|numeric|digits:10',
             'comment' => 'required|',
         ];
+    }
+
+    public function toDTO(): ContactData
+    {
+        $data = $this->validated();
+        return new ContactData(
+            name: $data['name'],
+            email: $data['email'],
+            phone: $data['phone'] ?? null,
+            comment: $data['comment'],
+        );
     }
 }

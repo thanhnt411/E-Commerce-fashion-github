@@ -9,11 +9,7 @@ class SlideRepository
     /**
      * Create a new class instance.
      */
-    protected $model;
-    public function __construct(Slide $model)
-    {
-        $this->model = $model;
-    }
+    public function __construct(protected Slide $model) {}
 
     public function getActiveStatus($limit = 3)
     {

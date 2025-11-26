@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\Services\UserServiceInterface;
-use Surfsidemedia\Shoppingcart\Facades\Cart;
 
 class UserController extends Controller
 {

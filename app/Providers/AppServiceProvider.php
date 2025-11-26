@@ -11,7 +11,8 @@ class AppServiceProvider extends ServiceProvider
 {
     protected $services = [
         'Home',
-        'Shop'
+        'Shop',
+        'User'
     ];
     /**
      * Register any application services.

@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
-use App\Models\OrderItem;
-use App\Models\Transaction;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Interfaces\Services\UserServiceInterface;
 use Surfsidemedia\Shoppingcart\Facades\Cart;
 
 class UserController extends Controller
 {
+    public function __construct(protected UserServiceInterface $userService) {}
+
     public function index()
     {
         return view('user.index');
@@ -18,21 +16,27 @@ class UserController extends Controller
 
     public function orders()
     {
-        $orders = Order::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(10);
-        return view('user.orders', compact('orders'));
+        $order = $this->userService->getUserOrder();
+        return view('user.orders', [
+            'orders' => $order
+        ]);
     }
 
     public function orders_details($order_id)
     {
-        $orders = Order::findOrFail($order_id);
-        $orderItems = OrderItem::where('order_id', $order_id)->orderBy('id')->paginate(10);
-        $transactions = Transaction::where('order_id', $order_id)->first();
-        return view('user.orders-details', compact('orders', 'orderItems', 'transactions'));
+        $orders = $this->userService->getOrderId($order_id);
+        $data = $this->userService->getUserData($order_id);
+        return view(
+            'user.orders-details',
+            array_merge($data, [
+                'orders' => $orders
+            ])
+        );
     }
 
     public function address()
     {
-        $orders = Order::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->first();
+        $orders = $this->userService->getUserAddress();
         return view('user.address', compact('orders'));
     }
 
@@ -43,7 +47,7 @@ class UserController extends Controller
 
     public function wishlist()
     {
-        $items = Cart::instance('wishlist')->content();
+        $items = $this->userService->getWishlistItem();
         return view('user.wishlist', compact('items'));
     }
 }

@@ -13,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
         'Home',
         'Shop',
         'User',
-        'Wishlist'
+        'Wishlist',
+        'Cart'
     ];
     /**
      * Register any application services.

@@ -12,7 +12,9 @@ class RepositoryProvider extends ServiceProvider
         'Category',
         'Order',
         'OrderItem',
-        'Transaction'
+        'Transaction',
+        'Coupon',
+        'Address'
     ];
     /**
      * Register services.

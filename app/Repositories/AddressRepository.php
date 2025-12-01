@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Address;
-use Illuminate\Support\Facades\Auth;
 use App\Interfaces\Repositories\AddressRepositoryInterface;
 
 class AddressRepository implements AddressRepositoryInterface
@@ -18,6 +17,11 @@ class AddressRepository implements AddressRepositoryInterface
 
     public function getAddress($user_id)
     {
-        return Address::where('user_id', $user_id)->where('isdefault', 1)->first();
+        return $this->model->where('user_id', $user_id)->where('isdefault', 1)->first();
+    }
+
+    public function create($data)
+    {
+        return $this->model->create($data);
     }
 }

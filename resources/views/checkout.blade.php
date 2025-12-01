@@ -39,22 +39,95 @@
                             </div>
                         </div>
                         @if ($address)
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="my-account__address-list">
-                                        <div class="my-account__address-list-item">
-                                            <div class="my-account__address-list-item__detail">
-                                                <p>{{ $address->name }}</p>
-                                                <p>{{ $address->address }}</p>
-                                                <p>{{ $address->landmark }}</p>
-                                                <p>{{ $address->city }},{{ $address->state }},{{ $address->country }}</p>
-                                                <p>{{ $address->zip }}</p>
-                                                <br>
-                                                <p>{{ $address->phone }}</p>
-                                            </div>
-                                        </div>
+                            <div class="row mt-5">
+                                <div class="col-md-6">
+                                    <div class="form-floating my-3">
+                                        <input type="text" class="form-control" name="name" required=""
+                                            value="{{ $address->name }}">
+                                        <label for="name">Full Name *</label>
+                                        <span class="text-danger"></span>
                                     </div>
                                 </div>
+                                @error('name')
+                                    <span class="alert alert-danger text-center">{{ $message }}</span>
+                                @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating my-3">
+                                        <input type="text" class="form-control" name="phone" required=""
+                                            value="{{ $address->phone }}">
+                                        <label for="phone">Phone Number *</label>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                                @error('phone')
+                                    <span class="alert alert-danger text-center">{{ $message }}</span>
+                                @enderror
+                                <div class="col-md-4">
+                                    <div class="form-floating my-3">
+                                        <input type="text" class="form-control" name="zip" required=""
+                                            value="{{ $address->zip }}">
+                                        <label for="zip">Pincode *</label>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                                @error('zip')
+                                    <span class="alert alert-danger text-center">{{ $message }}</span>
+                                @enderror
+                                <div class="col-md-4">
+                                    <div class="form-floating mt-3 mb-3">
+                                        <input type="text" class="form-control" name="state" required=""
+                                            value="{{ $address->state }}">
+                                        <label for="state">State *</label>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                                @error('state')
+                                    <span class="alert alert-danger text-center">{{ $message }}</span>
+                                @enderror
+                                <div class="col-md-4">
+                                    <div class="form-floating my-3">
+                                        <input type="text" class="form-control" name="city" required=""
+                                            value="{{ $address->city }}">
+                                        <label for="city">Town / City *</label>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                                @error('city')
+                                    <span class="alert alert-danger text-center">{{ $message }}</span>
+                                @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating my-3">
+                                        <input type="text" class="form-control" name="address" required=""
+                                            value="{{ $address->address }}">
+                                        <label for="address">House no, Building Name *</label>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                                @error('address')
+                                    <span class="alert alert-danger text-center">{{ $message }}</span>
+                                @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating my-3">
+                                        <input type="text" class="form-control" name="locality" required=""
+                                            value="{{ $address->locality }}">
+                                        <label for="locality">Road Name, Area, Colony *</label>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                                @error('locality')
+                                    <span class="alert alert-danger text-center">{{ $message }}</span>
+                                @enderror
+                                <div class="col-md-12">
+                                    <div class="form-floating my-3">
+                                        <input type="text" class="form-control" name="landmark" required=""
+                                            value="{{ $address->landmark }}">
+                                        <label for="landmark">Landmark *</label>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                                @error('landmark')
+                                    <span class="alert alert-danger text-center">{{ $message }}</span>
+                                @enderror
                             </div>
                         @else
                             <div class="row mt-5">

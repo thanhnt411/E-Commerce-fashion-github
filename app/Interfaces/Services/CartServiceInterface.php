@@ -2,6 +2,9 @@
 
 namespace App\Interfaces\Services;
 
+use App\DTOs\CartData;
+
+
 interface CartServiceInterface
 {
     public function getAll();
@@ -25,6 +28,8 @@ interface CartServiceInterface
     public function checkAuth();
 
     public function getAddress($user_id);
+
+    public function createAddress($data);
 
     public function getUserId();
 

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTOs\CartData;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -120,6 +121,11 @@ class CartService implements CartServiceInterface
     public function getAddress($user_id)
     {
         return $this->addressRepo->getAddress($user_id);
+    }
+
+    public function createAddress($data)
+    {
+        return $this->addressRepo->create($data);
     }
 
     public function setAmountforCheckout()

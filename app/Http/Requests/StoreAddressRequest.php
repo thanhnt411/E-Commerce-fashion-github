@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\DTOs\CartData;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreAddressRequest extends FormRequest
@@ -30,7 +31,21 @@ class StoreAddressRequest extends FormRequest
             'state' => 'required|',
             'landmark' => 'required|',
             'zip' => 'required|numeric|digits:6',
-            'country' => 'required|',
         ];
     }
+
+    /*public function toDTO(): CartData
+    {
+        $data = $this->validated();
+        return new CartData(
+            name: $data['name'],
+            locality: $data['locality'],
+            phone: $data['phone'] ?? null,
+            city: $data['city'],
+            address: $data['address'],
+            state: $data['state'],
+            landmark: $data['landmark'],
+            zip: $data['zip'],
+        );
+    }*/
 }

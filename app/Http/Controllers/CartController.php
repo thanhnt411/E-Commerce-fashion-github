@@ -94,44 +94,27 @@ class CartController extends Controller
         return view('checkout', compact('address'));
     }
 
-    public function place_an_order(Request $request)
+    public function place_an_order(StoreAddressRequest $request)
     {
+        $data = $request->validated();
         $user_id = $this->cartService->getUserId();
         $address = $this->cartService->getAddress($user_id);
         if (!$address) {
-            $request->validate([
-                'name' => 'required|max:100',
-                'phone' => 'required|numeric|digits:10',
-                'zip' => 'required|numeric|digits:6',
-                'state' => 'required|',
-                'city' => 'required|',
-                'address' => 'required|',
-                'locality' => 'required|',
-                'landmark' => 'required|',
-            ]);
-
-            $address = new Address();
-            $address->name = $request->name;
-            $address->phone = $request->phone;
-            $address->zip = $request->zip;
-            $address->state = $request->state;
-            $address->city = $request->city;
-            $address->address = $request->address;
-            $address->locality = $request->locality;
-            $address->landmark = $request->landmark;
-            $address->country = 'VietNam';
-            $address->user_id = $user_id;
-            $address->isdefault = true;
-            $address->save();
+            $data['user_id'] = auth()->id;
+            $data['country'] = 'Vietnam';
+            $data['isdefault'] = true;
+            $address = $this->cartService->createAddress($data);
         }
+
         $this->cartService->setAmountforCheckout();
 
+        $checkout = Session::get('checkout');
         $order = new Order();
         $order->user_id = $user_id;
-        $order->subtotal = Session::get('checkout')['subtotal'];
-        $order->discount =  Session::get('checkout')['discount'];
-        $order->tax =  Session::get('checkout')['tax'];
-        $order->total =  Session::get('checkout')['total'];
+        $order->subtotal =  $checkout['subtotal'];
+        $order->discount =  $checkout['discount'];
+        $order->tax =   $checkout['tax'];
+        $order->total =   $checkout['total'];
         $order->name = $address->name;
         $order->phone = $address->phone;
         $order->locality = $address->locality;

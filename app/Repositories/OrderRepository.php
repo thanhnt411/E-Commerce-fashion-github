@@ -36,4 +36,9 @@ class OrderRepository implements OrderRepositoryInterface
     {
         return $this->model->where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->first();
     }
+
+    public function getOrderCreatedDESC()
+    {
+        return $this->model->orderBy('created_at', 'DESC')->paginate(12);
+    }
 }

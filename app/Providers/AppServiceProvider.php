@@ -14,7 +14,8 @@ class AppServiceProvider extends ServiceProvider
         'Shop',
         'User',
         'Wishlist',
-        'Cart'
+        'Cart',
+        'Admin'
     ];
     /**
      * Register any application services.
@@ -31,10 +32,5 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
-        Gate::define('access-admin', function (User $user) {
-            return $user->name == 'Admin';
-        });
-    }
+    public function boot(): void {}
 }

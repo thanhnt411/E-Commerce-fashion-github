@@ -27,4 +27,19 @@ class BrandRepository implements BrandRepositoryInterface
     {
         return $this->model->orderBy('name', 'ASC')->get();
     }
+
+    public function getIdDESC()
+    {
+        return $this->model->orderBy('id', 'DESC')->paginate(10);
+    }
+
+    public function create($data)
+    {
+        return $this->model->create($data);
+    }
+
+    public function  update($brandId, $data)
+    {
+        return $this->model->find($brandId)->update($data);
+    }
 }

@@ -47,9 +47,9 @@ class User extends Authenticatable
         ];
     }
 
-    public function isAdmin()
+    public function isAdmin(): bool
     {
-        return $this->utype === 'ADM' && $this->name === 'Admin'; //Bình thường có mỗi đk trái cũng đc
+        return $this->utype === 'ADM';
     }
 
     public function isMyOrder(Order $order)

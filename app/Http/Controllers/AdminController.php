@@ -19,29 +19,22 @@ use App\Http\Requests\StoreSlideRequest;
 use App\Http\Requests\StoreCouponRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\StoreCategoryRequest;
-
+use App\Interfaces\Services\AdminServiceInterface;
 
 class AdminController extends Controller
 {
+    public function __construct(protected AdminServiceInterface $adminService) {}
+
     public function index()
     {
-        $orders = Order::orderBy('created_at', 'DESC')->paginate(12);
-        $dashboardDatas = DB::select("Select sum(total) As TotalAmount,
-                                    sum(if(status = 'ordered', total, 0)) As TotalOrderedAmount,
-                                    sum(if(status = 'delivered', total, 0)) As TotalDeliveredAmount,
-                                    sum(if(status = 'canceled', total, 0)) As TotalCanceledAmount,
-                                    Count(*) As Total,
-                                    sum(if(status = 'ordered', 1, 0)) As TotalOrdered,
-                                    sum(if(status = 'delivered', 1, 0)) As TotalDelivered,
-                                    sum(if(status = 'canceled', 1, 0)) As TotalCanceled
-                                    From  Orders 
-                                    ");
+        $orders = $this->adminService->getOrderCreatedDESC();
+        $dashboardDatas = $this->adminService->selectTotal();
         return view('admin.index', compact('orders', 'dashboardDatas'));
     }
 
     public function brands()
     {
-        $brands = Brand::orderBy('id', 'DESC')->paginate(10);
+        $brands = $this->adminService->getBrandIdDESC();
         return view('admin.brands', compact('brands'));
     }
 
@@ -52,21 +45,10 @@ class AdminController extends Controller
 
     public function store_brand(StoreBrandRequest $request)
     {
-        $data = $request->validated();
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $fileName = time() . '-' . $file->getClientOriginalName();
-            $path = $file->storeAs('brands', $fileName);
-        }
-        /*$img = Image::read($file->getRealPath());
-        $img->resize(800, null, function ($const) {
-            $const->aspectRatio();
-            $const->upsize();
-        });
-        $path = 'brands/' . $fileName;
-        Storage::disk('public')->put($path, (string) $img->endcode());*/
-        $data['image'] =  $path;
-        $brands = Brand::create($data);
+        $this->adminService->storeBrand(
+            $request->validated(),
+            $request->file('image')
+        );
         return redirect()->route('admin.brands')->with('status', 'Brand created successfully!');
     }
 
@@ -79,6 +61,13 @@ class AdminController extends Controller
 
     public function update_brand(StoreBrandRequest $request, Brand $brand)
     {
+        /*$brand = $this->adminService->getBrandId($id);
+        $this->adminService->updateBrand(
+            $brand,
+            $request->validated(),
+            $request->file('image'),
+        );*/
+
         $data = $request->validated();
         if ($request->hasFile('image')) {
             if ($brand->image && Storage::exists($brand->image)) {

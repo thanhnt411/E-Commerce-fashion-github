@@ -14,4 +14,6 @@ interface OrderRepositoryInterface
     public function getLatestUserOrder(int $limit);
 
     public function getFirstLatestOrder();
+
+    public function getOrderCreatedDESC();
 }

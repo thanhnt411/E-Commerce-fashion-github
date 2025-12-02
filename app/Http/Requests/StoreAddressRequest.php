@@ -20,6 +20,7 @@ class StoreAddressRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+
     public function rules(): array
     {
         return [
@@ -33,19 +34,4 @@ class StoreAddressRequest extends FormRequest
             'zip' => 'required|numeric|digits:6',
         ];
     }
-
-    /*public function toDTO(): CartData
-    {
-        $data = $this->validated();
-        return new CartData(
-            name: $data['name'],
-            locality: $data['locality'],
-            phone: $data['phone'] ?? null,
-            city: $data['city'],
-            address: $data['address'],
-            state: $data['state'],
-            landmark: $data['landmark'],
-            zip: $data['zip'],
-        );
-    }*/
 }

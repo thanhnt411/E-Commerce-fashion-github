@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CheckStockAvailability;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProductRequest extends FormRequest
@@ -22,7 +23,7 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|',
+            'name' => ['required'],
             'slug' => 'required|unique:products,slug',
             'short_description' => 'required|',
             'description' => 'required|',
@@ -32,7 +33,7 @@ class StoreProductRequest extends FormRequest
             'images' => 'required',
             'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
             'SKU' => 'required|',
-            'stock_status' => 'required|',
+            'stock_status' => ['required', new CheckStockAvailability],
             'featured' => 'required|',
             'quantity' => 'required|',
             'brand_id' => 'required|',

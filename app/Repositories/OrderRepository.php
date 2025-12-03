@@ -22,9 +22,9 @@ class OrderRepository implements OrderRepositoryInterface
         return $this->model->all();
     }
 
-    public function find(int $order_id): ?Order
+    public function findOrFail(int $order_id): ?Order
     {
-        return $this->model->find($order_id);
+        return $this->model->findOrFail($order_id);
     }
 
     public function getLatestUserOrder($limit = 10)

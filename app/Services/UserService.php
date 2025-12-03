@@ -26,11 +26,7 @@ class UserService implements UserServiceInterface
 
     public function getOrderId($order_id)
     {
-        $order = $this->orderRepo->find($order_id);
-        if (!$order) {
-            abs(404, 'Không tìm thấy đơn hàng');
-        }
-        return $order;
+        return $this->orderRepo->findOrFail($order_id);
     }
 
     public function getUserData($order_id)

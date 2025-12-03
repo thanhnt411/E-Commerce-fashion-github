@@ -9,7 +9,7 @@ interface OrderRepositoryInterface
 {
     public function all(): Collection;
 
-    public function find(int $order_id): ?Order;
+    public function findOrFail(int $order_id): ?Order;
 
     public function getLatestUserOrder(int $limit);
 

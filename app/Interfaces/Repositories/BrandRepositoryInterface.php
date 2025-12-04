@@ -17,5 +17,7 @@ interface BrandRepositoryInterface
 
     public function create($data);
 
-    public function  update($brandId, $data);
+    public function  update($brand, $data);
+
+    public function delete($brand);
 }

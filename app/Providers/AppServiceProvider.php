@@ -15,8 +15,13 @@ class AppServiceProvider extends ServiceProvider
         'User',
         'Wishlist',
         'Cart',
-        'Admin'
+        'Admin',
     ];
+
+    protected $adminService = [
+        'Brand'
+    ];
+
     /**
      * Register any application services.
      */
@@ -25,6 +30,12 @@ class AppServiceProvider extends ServiceProvider
         foreach ($this->services as $name) {
             $interface = "App\\Interfaces\\Services\\{$name}ServiceInterface";
             $implement = "App\\Services\\{$name}Service";
+            $this->app->bind($interface, $implement);
+        }
+
+        foreach ($this->adminService as $name) {
+            $interface = "App\\Interfaces\\Services\\Admin\\{$name}ServiceInterface";
+            $implement = "App\\Services\\Admin\\{$name}Service";
             $this->app->bind($interface, $implement);
         }
     }

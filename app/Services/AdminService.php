@@ -39,31 +39,4 @@ class AdminService implements AdminServiceInterface
                                     From  Orders 
                                     ");
     }
-
-    public function getBrandId($id)
-    {
-        return $this->brandRepo->find($id);
-    }
-
-    public function getBrandIdDESC()
-    {
-        return $this->brandRepo->getIdDESC();
-    }
-
-    public function storeBrand(array $data, $imgFile)
-    {
-        if ($imgFile) {
-            $data['image'] =  $this->fileService->upload($imgFile, 'brands');
-        }
-        return $this->brandRepo->create($data);
-    }
-
-    public function updateBrand(Brand $brand, array $data, $imgFile)
-    {
-        if ($imgFile) {
-            $this->fileService->delete($brand->image);
-            $data['image'] = $this->fileService->upload($imgFile, 'brands');
-        }
-        return $this->brandRepo->update($brand->id, $data);
-    }
 }

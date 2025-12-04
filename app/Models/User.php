@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'mobile',
         'password',
+        'utype'
     ];
 
     /**
@@ -49,7 +50,7 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->utype === 'ADM';
+        return $this->utype == 'ADM';
     }
 
     public function isMyOrder(Order $order)

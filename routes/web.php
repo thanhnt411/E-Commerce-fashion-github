@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ShopController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BrandController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/about', [HomeController::class, 'about'])->name('about.index');
@@ -78,12 +79,12 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('admin.index');
 
         Route::prefix('brands')->group(function () {
-            Route::get('/', [AdminController::class, 'brands'])->name('admin.brands');
-            Route::get('/add', [AdminController::class, 'add_brand'])->name('admin.brand.add')->middleware('can:create,App\Models\Brand');
-            Route::post('/store', [AdminController::class, 'store_brand'])->name('admin.brand.store')->middleware('can:create,App\Models\Brand');
-            Route::get('/{brand}/edit', [AdminController::class, 'edit_brand'])->name('admin.brand.edit')->middleware('can:update,brand');
-            Route::put('/{brand}/update', [AdminController::class, 'update_brand'])->name('admin.brand.update')->middleware('can:update,brand');
-            Route::delete('/{brand}/delete', [AdminController::class, 'delete_brand'])->name('admin.brand.delete')->middleware('can:delete,brand');
+            Route::get('/', [BrandController::class, 'index'])->name('admin.brands');
+            Route::get('/add', [BrandController::class, 'create'])->name('admin.brand.add')->middleware('can:create,App\Models\Brand');
+            Route::post('/store', [BrandController::class, 'store'])->name('admin.brand.store')->middleware('can:create,App\Models\Brand');
+            Route::get('/{brand}/edit', [BrandController::class, 'edit'])->name('admin.brand.edit')->middleware('can:update,brand');
+            Route::put('/{brand}/update', [BrandController::class, 'update'])->name('admin.brand.update');
+            Route::delete('/{brand}/delete', [BrandController::class, 'delete'])->name('admin.brand.delete');
         });
 
         Route::prefix('categories')->group(function () {

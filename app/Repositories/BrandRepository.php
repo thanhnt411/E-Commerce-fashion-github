@@ -38,8 +38,13 @@ class BrandRepository implements BrandRepositoryInterface
         return $this->model->create($data);
     }
 
-    public function  update($brandId, $data)
+    public function  update($brand, $data)
     {
-        return $this->model->find($brandId)->update($data);
+        return $brand->update($data);
+    }
+
+    public function delete($brand)
+    {
+        return $brand->delete();
     }
 }

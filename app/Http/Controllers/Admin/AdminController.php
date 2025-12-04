@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Brand;
 use App\Models\Order;
@@ -12,7 +13,6 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\OrderItem;
 use App\Models\Transaction;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\StoreSlideRequest;
@@ -30,65 +30,6 @@ class AdminController extends Controller
         $orders = $this->adminService->getOrderCreatedDESC();
         $dashboardDatas = $this->adminService->selectTotal();
         return view('admin.index', compact('orders', 'dashboardDatas'));
-    }
-
-    public function brands()
-    {
-        $brands = $this->adminService->getBrandIdDESC();
-        return view('admin.brands', compact('brands'));
-    }
-
-    public function add_brand()
-    {
-        return view('admin.add-brand');
-    }
-
-    public function store_brand(StoreBrandRequest $request)
-    {
-        $this->adminService->storeBrand(
-            $request->validated(),
-            $request->file('image')
-        );
-        return redirect()->route('admin.brands')->with('status', 'Brand created successfully!');
-    }
-
-    public function edit_brand(Brand $brand)
-    {
-        return view('admin.edit-brand', [
-            'brands' => $brand
-        ]);
-    }
-
-    public function update_brand(StoreBrandRequest $request, Brand $brand)
-    {
-        /*$brand = $this->adminService->getBrandId($id);
-        $this->adminService->updateBrand(
-            $brand,
-            $request->validated(),
-            $request->file('image'),
-        );*/
-
-        $data = $request->validated();
-        if ($request->hasFile('image')) {
-            if ($brand->image && Storage::exists($brand->image)) {
-                Storage::delete($brand->image);
-            }
-            $file = $request->file('image');
-            $fileName = time() . '-' . $file->getClientOriginalName();
-            $path = $file->storeAs('brands', $fileName);
-        }
-        $data['image'] =  $path;
-        $brand->update($data);
-        return redirect()->route('admin.brands')->with('status', 'Brand updated successfully!');
-    }
-
-    public function delete_brand(Brand $brand)
-    {
-        if ($brand->image && Storage::exists($brand->image)) {
-            Storage::delete($brand->image);
-        }
-        $brand->delete();
-        return back()->with('status', 'Brand deleted successfully!');
     }
 
     //START Categories

@@ -22,7 +22,8 @@ class AppServiceProvider extends ServiceProvider
         'Brand',
         'Category',
         'Product',
-        'Coupon'
+        'Coupon',
+        'Slide'
     ];
 
     /**

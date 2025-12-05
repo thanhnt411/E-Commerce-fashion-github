@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SlideController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/about', [HomeController::class, 'about'])->name('about.index');
@@ -118,12 +119,12 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
         });
 
         Route::prefix('slides')->group(function () {
-            Route::get('/', [AdminController::class, 'slides'])->name('admin.slides');
-            Route::get('/add', [AdminController::class, 'add_slides'])->name('admin.slides.add')->middleware('can:create,App\Models\Slide');
-            Route::post('/store', [AdminController::class, 'store_slides'])->name('admin.slides.store')->middleware('can:create,App\Models\Slide');
-            Route::get('/{slide}/edit', [AdminController::class, 'edit_slides'])->name('admin.slides.edit')->middleware('can:update,slide');
-            Route::put('/{slide}/update', [AdminController::class, 'update_slides'])->name('admin.slides.update')->middleware('can:update,slide');
-            Route::delete('/{slide}/delete', [AdminController::class, 'delete_slides'])->name('admin.slides.delete')->middleware('can:delete,slide');
+            Route::get('/', [SlideController::class, 'index'])->name('admin.slides');
+            Route::get('/add', [SlideController::class, 'create'])->name('admin.slides.add')->middleware('can:create,App\Models\Slide');
+            Route::post('/store', [SlideController::class, 'store'])->name('admin.slides.store')->middleware('can:create,App\Models\Slide');
+            Route::get('/{slide}/edit', [SlideController::class, 'edit'])->name('admin.slides.edit')->middleware('can:update,slide');
+            Route::put('/{slide}/update', [SlideController::class, 'update'])->name('admin.slides.update');
+            Route::delete('/{slide}/delete', [SlideController::class, 'delete'])->name('admin.slides.delete');
         });
 
         Route::get('/contacts', [AdminController::class, 'contacts'])->name('admin.contacts');

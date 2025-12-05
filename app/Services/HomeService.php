@@ -5,9 +5,9 @@ namespace App\Services;
 use App\DTOs\ContactData;
 use App\Interfaces\Repositories\CategoryRepositoryInterface;
 use App\Interfaces\Repositories\ProductRepositoryInterface;
+use App\Interfaces\Repositories\SlideRepositoryInterface;
 use App\Interfaces\Services\HomeServiceInterface;
 use App\Repositories\ContactRepository;
-use App\Repositories\SlideRepository;
 
 class HomeService implements HomeServiceInterface
 {
@@ -17,7 +17,7 @@ class HomeService implements HomeServiceInterface
 
     public function __construct(
         protected  CategoryRepositoryInterface $categoryRepo,
-        protected  SlideRepository $slideRepo,
+        protected  SlideRepositoryInterface $slideRepo,
         protected  ProductRepositoryInterface $productRepo,
         protected  ContactRepository $contactRepo
     ) {}

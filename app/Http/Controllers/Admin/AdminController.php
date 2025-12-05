@@ -26,65 +26,6 @@ class AdminController extends Controller
         return view('admin.index', compact('orders', 'dashboardDatas'));
     }
 
-    //START Slides
-    public function slides()
-    {
-        $slides = Slide::orderBy('id', 'DESC')->paginate(12);
-        return view('admin.slides', compact('slides'));
-    }
-
-    public function add_slides()
-    {
-        return view('admin.add-slides');
-    }
-
-    public function store_slides(StoreSlideRequest $request)
-    {
-        $data = $request->validated();
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $fileName = time() . '-' . $file->getClientOriginalName();
-            $path = $file->storeAs('slides', $fileName);
-        }
-
-        $data['image'] =  $path;
-        $slides = Slide::create($data);
-        return redirect()->route('admin.slides')->with('status', 'Slide created successfully!');
-    }
-
-    public function edit_slides(Slide $slide)
-    {
-        return view('admin.edit-slides', [
-            'slides' => $slide
-        ]);
-    }
-
-    public function update_slides(StoreSlideRequest $request, Slide $slide)
-    {
-        $data = $request->validated();
-        if ($request->hasFile('image')) {
-            if ($slide->image && Storage::exists($slide->image)) {
-                Storage::delete($slide->image);
-            }
-            $file = $request->file('image');
-            $fileName = time() . '-' . $file->getClientOriginalName();
-            $path = $file->storeAs('slides', $fileName);
-        }
-        $data['image'] =  $path;
-        $slide->update($data);
-        return redirect()->route('admin.slides')->with('status', 'Slides updated successfully!');
-    }
-
-    public function delete_slides(Slide $slide)
-    {
-        if ($slide->image && Storage::exists($slide->image)) {
-            Storage::delete($slide->image);
-        }
-        $slide->delete();
-        return back()->with('status', 'Slides deleted successfully!');
-    }
-    //END Sliedes
-
     //START Contact
     public function contacts()
     {

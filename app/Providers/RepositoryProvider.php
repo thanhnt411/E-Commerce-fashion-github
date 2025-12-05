@@ -14,7 +14,8 @@ class RepositoryProvider extends ServiceProvider
         'OrderItem',
         'Transaction',
         'Coupon',
-        'Address'
+        'Address',
+        'Slide'
     ];
     /**
      * Register services.

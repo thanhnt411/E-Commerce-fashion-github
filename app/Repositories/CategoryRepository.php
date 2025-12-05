@@ -32,4 +32,24 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         return $this->model->orderBy('name', 'ASC')->get();
     }
+
+    public function getIdDESC()
+    {
+        return $this->model->orderBy('id', 'DESC')->paginate(10);
+    }
+
+    public function create($data)
+    {
+        return $this->model->create($data);
+    }
+
+    public function  update($category, $data)
+    {
+        return $category->update($data);
+    }
+
+    public function delete($category)
+    {
+        return $category->delete();
+    }
 }

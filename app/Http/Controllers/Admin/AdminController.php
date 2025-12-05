@@ -14,7 +14,6 @@ use App\Models\Category;
 use App\Models\OrderItem;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\StoreSlideRequest;
 use App\Http\Requests\StoreCouponRequest;
 use App\Http\Requests\StoreProductRequest;
@@ -31,65 +30,6 @@ class AdminController extends Controller
         $dashboardDatas = $this->adminService->selectTotal();
         return view('admin.index', compact('orders', 'dashboardDatas'));
     }
-
-    //START Categories
-    public function categories()
-    {
-        $categories = Category::orderBy('id', 'DESC')->paginate(10);
-        return view('admin.categories', compact('categories'));
-    }
-
-    public function add_categories()
-    {
-        return view('admin.add-categories');
-    }
-
-    public function store_categories(StoreCategoryRequest $request)
-    {
-        $data = $request->validated();
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $fileName = time() . '-' . $file->getClientOriginalName();
-            $path = $file->storeAs('categories', $fileName);
-        }
-
-        $data['image'] =  $path;
-        $categories = Category::create($data);
-        return redirect()->route('admin.categories')->with('status', 'Category created successfully!');
-    }
-
-    public function edit_categories(Category $category)
-    {
-        return view('admin.edit-categories', [
-            'categories' => $category
-        ]);
-    }
-
-    public function update_categories(StoreCategoryRequest $request, Category $category)
-    {
-        $data = $request->validated();
-        if ($request->hasFile('image')) {
-            if ($category->image && Storage::exists($category->image)) {
-                Storage::delete($category->image);
-            }
-            $file = $request->file('image');
-            $fileName = time() . '-' . $file->getClientOriginalName();
-            $path = $file->storeAs('categories', $fileName);
-        }
-        $data['image'] =  $path;
-        $category->update($data);
-        return redirect()->route('admin.categories')->with('status', 'Categories updated successfully!');
-    }
-
-    public function delete_categories(Category $category)
-    {
-        if ($category->image && Storage::exists($category->image)) {
-            Storage::delete($category->image);
-        }
-        $category->delete();
-        return back()->with('status', 'Categories deleted successfully!');
-    }
-    //END Categories
 
     //START Products
     public function products()

@@ -14,4 +14,12 @@ interface CategoryRepositoryInterface
     public function getLatesCategory(int $limit);
 
     public function getFirstCategory();
+
+    public function getIdDESC();
+
+    public function create($data);
+
+    public function update($category, $data);
+
+    public function delete($category);
 }

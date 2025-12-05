@@ -19,7 +19,8 @@ class AppServiceProvider extends ServiceProvider
     ];
 
     protected $adminService = [
-        'Brand'
+        'Brand',
+        'Category'
     ];
 
     /**

@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\CategoryController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/about', [HomeController::class, 'about'])->name('about.index');
@@ -88,12 +89,12 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
         });
 
         Route::prefix('categories')->group(function () {
-            Route::get('/', [AdminController::class, 'categories'])->name('admin.categories');
-            Route::get('/add', [AdminController::class, 'add_categories'])->name('admin.categories.add')->middleware('can:create,App\Models\Category');
-            Route::post('/store', [AdminController::class, 'store_categories'])->name('admin.categories.store')->middleware('can:create,App\Models\Category');
-            Route::get('/{category}/edit', [AdminController::class, 'edit_categories'])->name('admin.categories.edit')->middleware('can:update,category');
-            Route::put('/{category}/update', [AdminController::class, 'update_categories'])->name('admin.categories.update')->middleware('can:update,category');
-            Route::delete('/{category}/delete', [AdminController::class, 'delete_categories'])->name('admin.categories.delete')->middleware('can:delete,category');
+            Route::get('/', [CategoryController::class, 'index'])->name('admin.categories');
+            Route::get('/add', [CategoryController::class, 'create'])->name('admin.categories.add')->middleware('can:create,App\Models\Category');
+            Route::post('/store', [CategoryController::class, 'store'])->name('admin.categories.store')->middleware('can:create,App\Models\Category');
+            Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit')->middleware('can:update,category');
+            Route::put('/{category}/update', [CategoryController::class, 'update'])->name('admin.categories.update');
+            Route::delete('/{category}/delete', [CategoryController::class, 'delete'])->name('admin.categories.delete');
         });
 
         Route::prefix('products')->group(function () {

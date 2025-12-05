@@ -11,6 +11,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/about', [HomeController::class, 'about'])->name('about.index');
@@ -98,12 +99,12 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
         });
 
         Route::prefix('products')->group(function () {
-            Route::get('/', [AdminController::class, 'products'])->name('admin.products');
-            Route::get('/add', [AdminController::class, 'add_products'])->name('admin.products.add')->middleware('can:create,App\Models\Product');
-            Route::post('/store', [AdminController::class, 'store_products'])->name('admin.products.store')->middleware('can:create,App\Models\Product');
-            Route::get('/{product}/edit', [AdminController::class, 'edit_products'])->name('admin.products.edit')->middleware('can:update,product');
-            Route::put('{product}/update', [AdminController::class, 'update_products'])->name('admin.products.update')->middleware('can:update,product');
-            Route::delete('/{product}/delete', [AdminController::class, 'delete_products'])->name('admin.products.delete')->middleware('can:delete,product');
+            Route::get('/', [ProductController::class, 'index'])->name('admin.products');
+            Route::get('/add', [ProductController::class, 'create'])->name('admin.products.add')->middleware('can:create,App\Models\Product');
+            Route::post('/store', [ProductController::class, 'store'])->name('admin.products.store')->middleware('can:create,App\Models\Product');
+            Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('admin.products.edit')->middleware('can:update,product');
+            Route::put('{product}/update', [ProductController::class, 'update'])->name('admin.products.update');
+            Route::delete('/{product}/delete', [ProductController::class, 'delete'])->name('admin.products.delete');
         });
 
         Route::prefix('coupons')->group(function () {

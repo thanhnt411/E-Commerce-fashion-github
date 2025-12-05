@@ -4,20 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Slide;
 use App\Models\Coupon;
 use App\Models\Contact;
-use App\Models\Product;
-use App\Models\Category;
 use App\Models\OrderItem;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreSlideRequest;
 use App\Http\Requests\StoreCouponRequest;
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\StoreCategoryRequest;
 use App\Interfaces\Services\AdminServiceInterface;
 
 class AdminController extends Controller
@@ -30,113 +25,6 @@ class AdminController extends Controller
         $dashboardDatas = $this->adminService->selectTotal();
         return view('admin.index', compact('orders', 'dashboardDatas'));
     }
-
-    //START Products
-    public function products()
-    {
-        $products = Product::orderBy('created_at', 'DESC')->paginate(10);
-        return view('admin.products', compact('products'));
-    }
-
-    public function add_products()
-    {
-        $categories = Category::select('id', 'name')->orderBy('name')->get();
-        $brands = Brand::select('id', 'name')->orderBy('name')->get();
-        return view('admin.add-products', [
-            'categories' => $categories,
-            'brands' => $brands
-        ]);
-    }
-
-    public function store_products(StoreProductRequest $request)
-    {
-        $data = $request->validated();
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $fileName = time() . '-' . $file->getClientOriginalName();
-            $Mainpath = $file->storeAs('products', $fileName);
-            $data['image'] = $Mainpath;
-        }
-
-        $gallery = [];
-        $count = 1;
-        if ($request->hasFile('images')) {
-            $files = (array) $request->file('images');
-            foreach ($files as $file) {
-                $fileNameG = now()->timestamp . '-' . uniqid() . '-' . $count . '.' . $file->extension();
-
-                $galleryPath = $file->storeAs('products/thumbnail', $fileNameG);
-                $gallery[] = $galleryPath;
-                $count = $count + 1;
-            }
-            $data['images'] = implode(',', $gallery);
-        }
-        $products = Product::create($data);
-        return redirect()->route('admin.products')->with('status', 'Products created successfully!');
-    }
-
-    public function edit_products(Product $product)
-    {
-        $categories = Category::select('id', 'name')->orderBy('name')->get();
-        $brands = Brand::select('id', 'name')->orderBy('name')->get();
-        return view('admin.edit-products', [
-            'products' => $product,
-            'categories' => $categories,
-            'brands' => $brands
-        ]);
-    }
-
-    public function update_products(StoreProductRequest $request, Product $product)
-    {
-        $data = $request->validated();
-        if ($request->hasFile('image')) {
-            if ($product->image && Storage::exists($product->image)) {
-                Storage::delete($product->image);
-            }
-            $file = $request->file('image');
-            $fileName = time() . '-' . $file->getClientOriginalName();
-            $Mainpath = $file->storeAs('products', $fileName);
-            $data['image'] = $Mainpath;
-        }
-
-        $gallery = [];
-        $count = 1;
-        if ($request->hasFile('images')) {
-            $files = (array) $request->file('images');
-            foreach ($files as $file) {
-                $fileNameG = now()->timestamp . '-' . uniqid() . '-' . $count . '.' . $file->extension();
-                $galleryPath = $file->storeAs('products/thumbnail', $fileNameG);
-                $gallery[] = $galleryPath;
-                $count = $count + 1;
-            }
-        }
-        if (!empty($gallery)) {
-            foreach (explode(',', $product->images) as $olFile) {
-                if (Storage::exists(trim($olFile))) {
-                    Storage::delete($olFile);
-                }
-            }
-        }
-        $data['images'] = implode(',', $gallery);
-
-        $product->update($data);
-        return redirect()->route('admin.products')->with('status', 'Products updated successfully!');
-    }
-
-    public function delete_products(Product $product)
-    {
-        if ($product->image && Storage::exists($product->image)) {
-            Storage::delete($product->image);
-        }
-        foreach (explode(',', $product->images) as $olFile) {
-            if (Storage::exists(trim($olFile))) {
-                Storage::delete($olFile);
-            }
-        }
-        $product->delete();
-        return back()->with('status', 'Products deleted successfully!');
-    }
-    //END Products
 
     //START Coupons
     public function coupons()

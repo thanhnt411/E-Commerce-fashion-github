@@ -22,4 +22,16 @@ interface ProductRepositoryInterface
     public function getProductSlug($product_slug);
 
     public function getProductsNotEqualSlug($product_slug, int $limit);
+
+    public function getLatestProduct();
+
+    public function selectCategory();
+
+    public function selectBrand();
+
+    public function create($data);
+
+    public function update($product, $data);
+
+    public function delete($product);
 }

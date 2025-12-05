@@ -11,7 +11,6 @@ class CategoryController extends Controller
 {
     public function __construct(protected CategoryServiceInterface $categoryService) {}
 
-    //START Categories
     public function index()
     {
         $categories = $this->categoryService->getCategoryIdDESC();
@@ -56,5 +55,4 @@ class CategoryController extends Controller
         $this->categoryService->deleteCategory($category);
         return back()->with('status', 'Categories deleted successfully!');
     }
-    //END Categories
 }

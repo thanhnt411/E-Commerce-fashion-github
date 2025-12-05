@@ -15,13 +15,14 @@ class CheckStockAvailability implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $product = Product::find($value);
+        /*$product = Product::find($value);
         if (!$product) {
             $fail('Sản phẩm không tồn tại');
+            return;
         }
 
         if ($product->stock_status == 'outofstock') {
             $fail("Sản phẩm {$product->name} đã hết hàng");
-        }
+        }*/
     }
 }

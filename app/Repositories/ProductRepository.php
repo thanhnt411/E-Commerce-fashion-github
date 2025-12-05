@@ -2,9 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\Repositories\ProductRepositoryInterface;
+use App\Models\Brand;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Support\Collection;
+use App\Interfaces\Repositories\ProductRepositoryInterface;
 
 class ProductRepository implements ProductRepositoryInterface
 {
@@ -61,5 +63,35 @@ class ProductRepository implements ProductRepositoryInterface
     public function getProductsNotEqualSlug($product_slug, $limit = 8)
     {
         return $this->model->where('slug', '<>', $product_slug)->take($limit)->get();
+    }
+
+    public function getLatestProduct()
+    {
+        return $this->model->orderBy('created_at', 'DESC')->paginate(10);
+    }
+
+    public function selectCategory()
+    {
+        return Category::select('id', 'name')->orderBy('name')->get();
+    }
+
+    public function selectBrand()
+    {
+        return Brand::select('id', 'name')->orderBy('name')->get();
+    }
+
+    public function create($data)
+    {
+        return $this->model->create($data);
+    }
+
+    public function  update($product, $data)
+    {
+        return $product->update($data);
+    }
+
+    public function delete($product)
+    {
+        return $product->delete();
     }
 }

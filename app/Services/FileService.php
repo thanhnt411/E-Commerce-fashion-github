@@ -10,10 +10,6 @@ class FileService
     /**
      * Create a new class instance.
      */
-    public function __construct()
-    {
-        //
-    }
 
     public function upload(UploadedFile $file, string $folder = 'upload')
     {
@@ -22,9 +18,25 @@ class FileService
         return $path;
     }
 
+    public function uploadMore($files, string $folder = 'upload')
+    {
+        $gallery = [];
+        $count = 1;
+        foreach ($files as $file) {
+            if ($file instanceof UploadedFile) {
+                $fileNameG = now()->timestamp . '-' . uniqid() . '-' . $count . '.' . $file->extension();
+                $galleryPath = $file->storeAs($folder, $fileNameG);
+                $gallery[] = $galleryPath;
+                $count = $count + 1;
+            }
+        }
+        $finalString =  implode(',', $gallery);
+        return $finalString;
+    }
+
     public function delete(string $path)
     {
-        if (Storage::exists($path)) {
+        if (Storage::exists(trim($path))) {
             Storage::delete($path);
         }
     }

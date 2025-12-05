@@ -26,46 +26,6 @@ class AdminController extends Controller
         return view('admin.index', compact('orders', 'dashboardDatas'));
     }
 
-    //START Coupons
-    public function coupons()
-    {
-        $coupons = Coupon::orderBy('expiry_date', 'DESC')->paginate(10);
-        return view('admin.coupons', compact('coupons'));
-    }
-
-    public function add_coupons()
-    {
-        return view('admin.add-coupons');
-    }
-
-    public function store_coupons(StoreCouponRequest $request)
-    {
-        $data = $request->validated();
-        $coupons = Coupon::create($data);
-        return redirect()->route('admin.coupons')->with('satus', 'Coupons created successfully!');
-    }
-
-    public function edit_coupons(Coupon $coupon)
-    {
-        return view('admin.edit-coupons', [
-            'coupons' => $coupon
-        ]);
-    }
-
-    public function update_coupons(StoreCouponRequest $request, Coupon $coupon)
-    {
-        $data = $request->validated();
-        $coupon->update($data);
-        return redirect()->route('admin.coupons')->with('satus', 'Coupons updated successfully!');
-    }
-
-    public function delete_coupons(Coupon $coupon)
-    {
-        $coupon->delete();
-        return redirect()->back()->with('status', 'Coupons deleted successfully!');
-    }
-    //END Coupons
-
     //START Slides
     public function slides()
     {

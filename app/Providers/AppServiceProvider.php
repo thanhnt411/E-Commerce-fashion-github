@@ -21,7 +21,8 @@ class AppServiceProvider extends ServiceProvider
     protected $adminService = [
         'Brand',
         'Category',
-        'Product'
+        'Product',
+        'Coupon'
     ];
 
     /**

@@ -11,6 +11,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\ProductController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
@@ -108,12 +109,12 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
         });
 
         Route::prefix('coupons')->group(function () {
-            Route::get('/', [AdminController::class, 'coupons'])->name('admin.coupons');
-            Route::get('/add', [AdminController::class, 'add_coupons'])->name('admin.coupons.add')->middleware('can:create,App\Models\Coupon');
-            Route::post('/store', [AdminController::class, 'store_coupons'])->name('admin.coupons.store')->middleware('can:create,App\Models\Coupon');
-            Route::get('/{coupon}/edit', [AdminController::class, 'edit_coupons'])->name('admin.coupons.edit')->middleware('can:update,coupon');
-            Route::put('/{coupon}/update', [AdminController::class, 'update_coupons'])->name('admin.coupons.update')->middleware('can:update,coupon');
-            Route::delete('/{coupon}/delete', [AdminController::class, 'delete_coupons'])->name('admin.coupons.delete')->middleware('can:delete,coupon');
+            Route::get('/', [CouponController::class, 'index'])->name('admin.coupons');
+            Route::get('/add', [CouponController::class, 'create'])->name('admin.coupons.add')->middleware('can:create,App\Models\Coupon');
+            Route::post('/store', [CouponController::class, 'store'])->name('admin.coupons.store')->middleware('can:create,App\Models\Coupon');
+            Route::get('/{coupon}/edit', [CouponController::class, 'edit'])->name('admin.coupons.edit')->middleware('can:update,coupon');
+            Route::put('/{coupon}/update', [CouponController::class, 'update'])->name('admin.coupons.update');
+            Route::delete('/{coupon}/delete', [CouponController::class, 'delete'])->name('admin.coupons.delete');
         });
 
         Route::prefix('slides')->group(function () {

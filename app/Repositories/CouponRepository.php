@@ -11,10 +11,7 @@ class CouponRepository implements CouponRepositoryInterface
     /**
      * Create a new class instance.
      */
-    public function __construct(protected Coupon $model)
-    {
-        //
-    }
+    public function __construct(protected Coupon $model) {}
 
     public function all(): Collection
     {
@@ -28,6 +25,26 @@ class CouponRepository implements CouponRepositoryInterface
 
     public function getCouponCode($coupon_code)
     {
-        return Coupon::where('code', $coupon_code);
+        return $this->model->where('code', $coupon_code);
+    }
+
+    public function getExpiryDate()
+    {
+        return  $this->model->orderBy('expiry_date', 'DESC')->paginate(10);
+    }
+
+    public function create($data)
+    {
+        return $this->model->create($data);
+    }
+
+    public function  update($coupon, $data)
+    {
+        return $coupon->update($data);
+    }
+
+    public function delete($coupon)
+    {
+        return $coupon->delete();
     }
 }

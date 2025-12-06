@@ -25,8 +25,8 @@ class StoreWishlistRequest extends FormRequest
         return [
             'id' => 'required|integer',
             'name' => 'required|string',
-            'qty' => 'required|',
-            'price' => 'required|'
+            'qty' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0'
         ];
     }
 

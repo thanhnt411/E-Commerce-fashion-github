@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreWishlistRequest;
 use App\Interfaces\Services\WishlistServiceInterface;
 use Illuminate\Http\Request;
 

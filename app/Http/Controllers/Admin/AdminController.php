@@ -5,14 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Order;
-use App\Models\Slide;
-use App\Models\Coupon;
 use App\Models\Contact;
 use App\Models\OrderItem;
 use App\Models\Transaction;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\StoreSlideRequest;
-use App\Http\Requests\StoreCouponRequest;
 use App\Interfaces\Services\AdminServiceInterface;
 
 class AdminController extends Controller

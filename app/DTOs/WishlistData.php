@@ -11,12 +11,12 @@ readonly class WishlistData
         public int $id,
         public string $name,
         public int $qty,
-        public string $price
+        public float $price
     ) {
         //
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'id' => $this->id,

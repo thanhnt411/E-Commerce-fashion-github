@@ -165,6 +165,6 @@ class CartService implements CartServiceInterface
     public function getOrderId()
     {
         $order_id = Session::get('order_id');
-        return $this->orderRepo->find($order_id);
+        return $this->orderRepo->findOrFail($order_id);
     }
 }

@@ -153,9 +153,9 @@
                                     <th>Total</th>
                                     <td>{{ $orders->total }}</td>
                                     <th>Payment Mode</th>
-                                    <td>{{ $transactions->mode }}</td>
+                                    {{-- <td>{{ $transactions->mode }}</td> --}}
                                     <th>Status</th>
-                                    <td>{{ $transactions->status }}</td>
+                                    {{-- <td>{{ $transactions->status }}</td> --}}
                                 </tr>
                                 <tr>
                                     <th>Order Date</th>
